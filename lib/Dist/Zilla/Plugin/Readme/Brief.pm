@@ -18,6 +18,10 @@ with 'Dist::Zilla::Role::FileGatherer';
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
+
+
+
+
 sub gather_files {
   my ($self) = @_;
   require Dist::Zilla::File::FromCode;
@@ -271,6 +275,8 @@ that contains just the essential details about your dist a casual consumer would
 =item * Short copyright information
 
 =back
+
+=for Pod::Coverage gather_files
 
 =head1 NOTE
 
