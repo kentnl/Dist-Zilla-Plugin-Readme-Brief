@@ -101,7 +101,8 @@ sub _generate_content {
 
   if ( $self->has_installer ) {
     $out .= $self->_configured_installer . "\n";
-  } elsif ( my $installer  = $self->_auto_installer ) {
+  }
+  elsif ( my $installer = $self->_auto_installer ) {
     $out .= "$installer\n";
   }
   if ( my $copy = $self->_copyright_from_pod ) {
