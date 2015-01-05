@@ -73,7 +73,7 @@ sub _source_pod {
   require Pod::Elemental::Transformer::Nester;
   require Pod::Elemental::Selectors;
 
-  my $octets = Encode::encode( 'UTF-8', $chars, Encode::FB_CROAK );
+  my $octets = Encode::encode( 'UTF-8', $chars, Encode::FB_CROAK() );
   my $document = Pod::Elemental->read_string($octets);
   Pod::Elemental::Transformer::Pod5->new->transform_node($document);
 
