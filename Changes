@@ -1,6 +1,6 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
-0.001002 2015-01-05T19:50:11Z 779054f
+0.002000 2015-01-05T19:51:26Z d9a2186
  [Dependencies::Stats]
  - Dependencies changed since 0.001001, see misc/*.deps* for details
  - develop: (suggests: ↑1)

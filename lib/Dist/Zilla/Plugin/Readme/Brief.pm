@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.001002';
+our $VERSION = '0.002000';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -329,7 +329,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.001002
+version 0.002000
 
 =head1 SYNOPSIS
 
