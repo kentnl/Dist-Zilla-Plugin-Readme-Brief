@@ -99,11 +99,10 @@ sub _generate_content {
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
 
-  if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
-    $out .= $self->_install_eumm . qq[\n];
-  }
-  elsif ( first { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
-    $out .= $self->_install_mb . qq[\n];
+  if ( $self->has_installer ) {
+    $out .= $self->_configured_installer . "\n";
+  } elsif ( my $installer  = $self->_auto_installer ) {
+    $out .= "$installer\n";
   }
   if ( my $copy = $self->_copyright_from_pod ) {
     $out .= $copy;
@@ -122,7 +121,7 @@ sub _auto_installer {
   elsif ( first { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
     return $self->_install_mb;
   }
-  return '';
+  return;
 }
 
 sub _configured_installer {
