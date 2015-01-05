@@ -12,7 +12,6 @@ our $VERSION = '0.001000';
 
 use Moose qw( with );
 use List::Util qw( first );
-use Safe::Isa;
 with 'Dist::Zilla::Role::PPI';
 with 'Dist::Zilla::Role::FileGatherer';
 
