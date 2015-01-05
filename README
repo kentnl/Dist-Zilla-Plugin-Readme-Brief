@@ -22,12 +22,10 @@ To install this module automatically, any of the following may work:
   cpan  .
   cpanp -i .
 
-
 To install this module manually
 
   perl Makefile.PL
   make
   make test
   make install
-
 
