@@ -171,7 +171,6 @@ To install this module automatically, any of the following may work:
   cpanm .
   cpan  .
   cpanp -i .
-
 EOFAUTO
 }
 
