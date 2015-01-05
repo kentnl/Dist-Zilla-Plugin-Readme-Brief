@@ -106,7 +106,7 @@ sub _get_docname_via_comment {
 }
 
 sub _extract_comment_content {
-  my ( undef, $ppi_document, $key ) = @_;
+  my ( undef, $ppi_document, $key ) = @_; ## no critic (Variables::ProhibitUnusedVarsStricter)
 
   my $regex = qr/^\s*#+\s*$key:\s*(.+)$/mx;
 
@@ -189,11 +189,11 @@ sub _copyright_from_pod {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless $nodes[$node_number]->content =~ /COPYRIGHT|LICENSE/;
+    next unless $nodes[$node_number]->content =~ /COPYRIGHT|LICENSE/msx;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( "COPYRIGHT/LICENSE not found in " . $self->_source_pm_file->name );
+    $self->log( 'COPYRIGHT/LICENSE not found in ' . $self->_source_pm_file->name );
     return;
   }
   require Pod::Text;
