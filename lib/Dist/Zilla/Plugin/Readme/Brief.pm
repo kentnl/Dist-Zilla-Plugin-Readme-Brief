@@ -119,7 +119,7 @@ sub _description {
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
     next unless $nodes[$node_number]->content eq 'DESCRIPTION';
-    push @found, $nodes[$node_number+1];
+    push @found, @nodes[$node_number, $node_number+1];
   }
   if ( not @found ) {
     $self->log("DESCRIPTION not found in " . $self->_source_pm_file->name );
@@ -128,8 +128,8 @@ sub _description {
   require Pod::Text;
   my $parser = Pod::Text->new();
   $parser->output_string( \( my $text ) );
-  return join qq[\n], map { $_->as_pod_string } @found;
-#  $parser->parse_string_document( $_->as_pod_string ) for @found;
+#  return join qq[\n], map { $_->as_pod_string } @found;
+  $parser->parse_string_document( $_->as_pod_string ) for @found;
   return $text;
 }
 
