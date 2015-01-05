@@ -334,7 +334,7 @@ version 0.002001
 =head1 SYNOPSIS
 
   [Readme::Brief]
-  ; Override autodeteced install method
+  ; Override autodetected install method
   installer = eumm
 
 =head1 DESCRIPTION
