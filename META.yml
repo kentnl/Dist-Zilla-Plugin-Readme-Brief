@@ -344,6 +344,10 @@ x_Dist_Zilla:
       version: '0.004001'
     -
       class: Dist::Zilla::Plugin::Readme::Brief
+      config:
+        Dist::Zilla::Plugin::Readme::Brief:
+          installer:
+            - mb
       name: '@Author::KENTNL/ShippedReadme'
       version: '0.001002'
     -

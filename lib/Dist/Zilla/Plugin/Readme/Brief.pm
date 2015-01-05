@@ -68,7 +68,7 @@ around 'mvp_aliases' => sub {
   return { %{ $self->$orig(@rest) }, installers => 'installer' };
 };
 
-around dump_config => config_dumper( __PACKAGE__, { attrs => 'installer' } );
+around dump_config => config_dumper( __PACKAGE__, { attrs => ['installer'] } );
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
