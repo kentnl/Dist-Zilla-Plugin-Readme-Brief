@@ -11,6 +11,7 @@ our $VERSION = '0.001000';
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Moose qw( with );
+use List::Util qw( first );
 use Safe::Isa;
 with 'Dist::Zilla::Role::PPI';
 with 'Dist::Zilla::Role::FileGatherer';
@@ -23,12 +24,13 @@ sub gather_files {
   require Dist::Zilla::File::FromCode;
   $self->add_file(
     Dist::Zilla::File::FromCode->new(
-      name => "README",
+      name => 'README',
       code => sub {
         return $self->_generate_content;
       },
-    )
+    ),
   );
+  return;
 }
 
 # Internal Methods
@@ -40,10 +42,10 @@ sub _generate_content {
   $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
-  if ( grep { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
+  if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
     $out .= $self->_install_eumm . qq[\n];
   }
-  elsif ( grep { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
+  elsif ( first { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
     $out .= $self->_install_mb . qq[\n];
   }
   if ( my $copy = $self->_copyright_from_pod ) {

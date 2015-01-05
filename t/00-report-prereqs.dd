@@ -82,6 +82,7 @@ do { my $x = {
                                       'Dist::Zilla::Role::FileGatherer' => '0',
                                       'Dist::Zilla::Role::PPI' => '0',
                                       'Encode' => '0',
+                                      'List::Util' => '0',
                                       'Moose' => '0',
                                       'Pod::Elemental' => '0',
                                       'Pod::Elemental::Selectors' => '0',

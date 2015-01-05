@@ -58,6 +58,7 @@
       "Encode" : "2.67",
       "ExtUtils::MakeMaker" : "7.04",
       "File::Spec" : "3.51",
+      "List::Util" : "1.41",
       "Moose" : "2.1403",
       "Pod::Coverage::TrustPod" : "0.100003",
       "Pod::Elemental" : "0.103004",
