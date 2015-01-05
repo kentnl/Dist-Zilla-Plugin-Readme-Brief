@@ -266,6 +266,14 @@ x_Dist_Zilla:
               name: OVERVIEW
               version: '4.010'
             -
+              class: Pod::Weaver::Section::Generic
+              name: NOTE
+              version: '4.010'
+            -
+              class: Pod::Weaver::Section::Generic
+              name: MECHANICS
+              version: '4.010'
+            -
               class: Pod::Weaver::Section::Collect
               name: METHODS
               version: '4.010'

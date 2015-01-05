@@ -24,6 +24,28 @@ my %installers = (
   'mb'   => '_install_mb',
 );
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 has 'installer' => (
   isa => ArrayRef [ enum( [ keys %installers ] ) ],
   is => 'ro',
@@ -309,7 +331,8 @@ version 0.001002
 =head1 SYNOPSIS
 
   [Readme::Brief]
-  ; No tunables at this time
+  ; Override autodeteced install method
+  installer = eumm 
 
 =head1 DESCRIPTION
 
@@ -327,8 +350,6 @@ that contains just the essential details about your dist a casual consumer would
 =item * Short copyright information
 
 =back
-
-=for Pod::Coverage gather_files
 
 =head1 NOTE
 
@@ -362,6 +383,30 @@ However, bugs are highly likely to be encountered, especially as there are no te
 =item * Or failing such a section, a C<COPYRIGHT AND LICENSE> section will be derived from C<< zilla->license >>
 
 =back
+
+=head1 ATTRIBUTES
+
+=head2 installer
+
+Determines what installers to document in the C<INSTALLATION> section.
+
+By default, that section is determined based on the presence of certain
+files in your C<dist>.
+
+However, in the event you have multiple installers supported, manually specifying
+this attribute allows you to control which, or all, and the order.
+
+  installer = eumm ; # only eumm
+
+  installer = eumm 
+  installer = mb     ; EUMM shown first, MB shown second
+
+  installer = mb
+  installer = eumm   ; EUMM shown second, MB shown first
+
+The verbage however has not yet been cleaned up such that having both is completely lucid.
+
+=for Pod::Coverage gather_files
 
 =head1 AUTHOR
 
