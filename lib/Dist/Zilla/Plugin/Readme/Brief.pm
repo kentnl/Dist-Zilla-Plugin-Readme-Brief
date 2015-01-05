@@ -406,7 +406,7 @@ this attribute allows you to control which, or all, and the order.
   installer = mb
   installer = eumm   ; EUMM shown second, MB shown first
 
-The verbage however has not yet been cleaned up such that having both is completely lucid.
+The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
 =for Pod::Coverage gather_files
 
