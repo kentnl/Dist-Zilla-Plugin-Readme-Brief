@@ -1,4 +1,4 @@
-use 5.006;  # our
+use 5.006;    # our
 use strict;
 use warnings;
 
@@ -18,31 +18,32 @@ __PACKAGE__->meta->make_immutable;
 no Moose;
 
 sub gather_files {
-  my ( $self ) = @_;
+  my ($self) = @_;
   require Dist::Zilla::File::FromCode;
-  $self->add_file( Dist::Zilla::File::FromCode->new(
-    name => "README",
-    code => sub {
+  $self->add_file(
+    Dist::Zilla::File::FromCode->new(
+      name => "README",
+      code => sub {
         return $self->_generate_content;
-    },
-  ));
+      },
+    )
+  );
 }
 
 # Internal Methods
 
 sub _generate_content {
-  my ( $self ) = @_;
+  my ($self) = @_;
   return $self->_heading . qq[\n\n] . $self->_description;
 }
 
-
 sub _source_pm_file {
-  my ( $self ) = @_;
+  my ($self) = @_;
   return $self->zilla->main_module;
 }
 
 sub _source_pod {
-  my ( $self ) = @_;
+  my ($self) = @_;
   return $self->{_pod_cache} if exists $self->{_pod_cache};
   my $chars = $self->_source_pm_file->content;
 
@@ -52,17 +53,17 @@ sub _source_pod {
   require Pod::Elemental::Transformer::Nester;
   require Pod::Elemental::Selectors;
 
-  my $octets  = Encode::encode('UTF-8', $chars, Encode::FB_CROAK);
-  my $document = Pod::Elemental->read_string( $octets  );
+  my $octets = Encode::encode( 'UTF-8', $chars, Encode::FB_CROAK );
+  my $document = Pod::Elemental->read_string($octets);
   Pod::Elemental::Transformer::Pod5->new->transform_node($document);
 
-  my $nester = Pod::Elemental::Transformer::Nester->new({
-    top_selector      => Pod::Elemental::Selectors::s_command('head1'),
-    content_selectors => [
-      Pod::Elemental::Selectors::s_flat,
-      Pod::Elemental::Selectors::s_command([ qw(head2 head3 head4 over item back) ]),
-    ],
-  });
+  my $nester = Pod::Elemental::Transformer::Nester->new(
+    {
+      top_selector => Pod::Elemental::Selectors::s_command('head1'),
+      content_selectors =>
+        [ Pod::Elemental::Selectors::s_flat, Pod::Elemental::Selectors::s_command( [qw(head2 head3 head4 over item back)] ), ],
+    }
+  );
   $nester->transform_node($document);
 
   $self->{_pod_cache} = $document;
@@ -70,24 +71,24 @@ sub _source_pod {
 }
 
 sub _get_docname_via_statement {
-  my ($self, $ppi_document) = @_;
- 
+  my ( $self, $ppi_document ) = @_;
+
   my $pkg_node = $ppi_document->find_first('PPI::Statement::Package');
   return unless $pkg_node;
   return $pkg_node->namespace;
 }
- 
+
 sub _get_docname_via_comment {
-  my ($self, $ppi_document) = @_;
- 
-  return $self->_extract_comment_content($ppi_document, 'PODNAME');
+  my ( $self, $ppi_document ) = @_;
+
+  return $self->_extract_comment_content( $ppi_document, 'PODNAME' );
 }
 
 sub _extract_comment_content {
-  my ($self, $ppi_document, $key) = @_;
- 
+  my ( $self, $ppi_document, $key ) = @_;
+
   my $regex = qr/^\s*#+\s*$key:\s*(.+)$/m;
- 
+
   my $content;
   my $finder = sub {
     my $node = $_[1];
@@ -98,49 +99,30 @@ sub _extract_comment_content {
     }
     return 0;
   };
- 
+
   $ppi_document->find_first($finder);
- 
+
   return $content;
 }
 
 sub _get_docname {
-  my ($self, $ppi_document) = @_;
- 
+  my ( $self, $ppi_document ) = @_;
+
   my $docname = $self->_get_docname_via_comment($ppi_document)
-             || $self->_get_docname_via_statement($ppi_document);
- 
+    || $self->_get_docname_via_statement($ppi_document);
+
   return $docname;
 }
 
 sub _heading {
-  my ( $self ) = @_;
+  my ($self) = @_;
   my $document = $self->ppi_document_for_file( $self->_source_pm_file );
-  return $self->_get_docname( $document );
-}
-
-sub _format_nodes {
-  my ( $self , $root ) = @_;
-  require Pod::Text;
-  # Note: this stuff is because Pod::Text doesn't like partial documents
-  # and chews output if there's no heading :(
-  my $parser = Pod::Text->new();
-  $parser->output_string( \( my $text ) );
-  $parser->parse_string_document( $root->as_pod_string );
-  # Hack #1, Strip the H1
-  $text =~ s{
-    \A      # From the start of the string
-    \s*     # Nuke whitespace
-    \w      # Then a block of at least one non-whitespace character
-    [^\n]+  # Followed by a bunch anything other than a \n
-    $       # Ending at a line end somewhere 
-  }{}msx;
-  # Hack 
+  return $self->_get_docname($document);
 }
 
 sub _description {
-  my ( $self ) = @_;
-  my $pod  = $self->_source_pod;
+  my ($self)  = @_;
+  my $pod     = $self->_source_pod;
   my (@nodes) = @{ $pod->children };
 
   my @found;
@@ -153,19 +135,18 @@ sub _description {
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log("DESCRIPTION not found in " . $self->_source_pm_file->name  );
+    $self->log( "DESCRIPTION not found in " . $self->_source_pm_file->name );
     return '';
   }
   require Pod::Text;
+
   # Note: this stuff is because Pod::Text doesn't like partial documents
   # and chews output if there's no heading :(
   my $parser = Pod::Text->new();
   $parser->output_string( \( my $text ) );
-  $parser->parse_string_document( 
-    join qq[\n], '=pod','', map { $_->as_pod_string } map { @{ $_->children } } @found );
-
- #  return join qq[\n], map { $_->as_pod_string } @found;
-#  $parser->parse_string_document( join qq[\n], map { $_->as_pod_string } map { @{ $_->children } } @found );
+  $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } map { @{ $_->children } } @found );
+  # strip extra indent;
+  $text =~ s{^[ ]{4}}{}msxg;
   return $text;
 }
 

@@ -1,14 +1,14 @@
 Dist::Zilla::Plugin::Readme::Brief
 
-    This provides a terse but informative README file for your CPAN
-    distribution that contains just the essential details about your dist a
-    casual consumer would want to know.
+This provides a terse but informative README file for your CPAN
+distribution that contains just the essential details about your dist a
+casual consumer would want to know.
 
-    *   The name of the primary module in the distribution
+*   The name of the primary module in the distribution
 
-    *   The distributions main modules description
+*   The distributions main modules description
 
-    *   Simple installation instructions from an extracted archive
+*   Simple installation instructions from an extracted archive
 
-    *   Short copyright information
+*   Short copyright information
 
