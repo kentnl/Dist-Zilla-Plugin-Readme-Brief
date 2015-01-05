@@ -108,7 +108,7 @@ sub _get_docname_via_comment {
 sub _extract_comment_content {
   my ( undef, $ppi_document, $key ) = @_;    ## no critic (Variables::ProhibitUnusedVarsStricter)
 
-  my $regex = qr/^\s*#+\s*$key:\s*(.+)$/mx;
+  my $regex = qr/^\s*#+\s*$key:\s*(.+)$/mx;  ## no critic (RegularExpressions::RequireDotMatchAnything)
 
   my $content;
   my $finder = sub {
