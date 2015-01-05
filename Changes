@@ -1,6 +1,8 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
 {{$NEXT}}
+ [Documentation]
+ - More spelling/punctuation mistakes. (ether++, #1)
 
 0.001001 2015-01-05T09:53:04Z f6de193
  - Spelling mistake (aristotle++)
