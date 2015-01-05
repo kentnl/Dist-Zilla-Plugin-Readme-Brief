@@ -299,7 +299,6 @@ EOFAUTO
 
 sub _install_eumm {
   return <<"EOFEUMM";
-
   perl Makefile.PL
   make
   make test
@@ -309,8 +308,6 @@ EOFEUMM
 
 sub _install_mb {
   return <<"EOFMB";
-To install this module manually
-
   perl Build.PL
   ./Build
   ./Build test
