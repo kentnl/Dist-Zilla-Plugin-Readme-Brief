@@ -131,7 +131,7 @@ sub _description {
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
     next unless $nodes[$node_number]->content eq 'DESCRIPTION';
-    push @found, @nodes[$node_number];
+    push @found, $nodes[$node_number];
   }
   if ( not @found ) {
     $self->log("DESCRIPTION not found in " . $self->_source_pm_file->name );
