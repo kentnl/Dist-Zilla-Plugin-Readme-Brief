@@ -20,7 +20,7 @@ name: Dist-Zilla-Plugin-Readme-Brief
 provides:
   Dist::Zilla::Plugin::Readme::Brief:
     file: lib/Dist/Zilla/Plugin/Readme/Brief.pm
-    version: '0.001001'
+    version: '0.001002'
 requires:
   Dist::Zilla::File::FromCode: '0'
   Dist::Zilla::Role::FileGatherer: '0'
@@ -40,7 +40,7 @@ resources:
   bugtracker: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief/issues
   homepage: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief
   repository: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief.git
-version: '0.001001'
+version: '0.001002'
 x_BuiltWith:
   external_file: misc/built_with.json
 x_Dist_Zilla:
@@ -334,7 +334,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Readme::Brief
       name: '@Author::KENTNL/ShippedReadme'
-      version: '0.001001'
+      version: '0.001002'
     -
       class: Dist::Zilla::Plugin::ReadmeAnyFromPod
       name: '@Author::KENTNL/ReadmeAnyFromPod'
@@ -396,7 +396,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: 0.001001-source
+          tag: 0.001002-source
           tag_format: '%v-source'
           tag_message: v%v
           time_zone: local
@@ -450,7 +450,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: releases
           signed: 0
-          tag: '0.001001'
+          tag: '0.001002'
           tag_format: '%v'
           tag_message: v%v
           time_zone: local
