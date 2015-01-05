@@ -45,8 +45,10 @@ sub _generate_content {
   } elsif (  grep { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
    $out .= $self->_install_mb . qq[\n];
   }
-  if ( my $copy = $self->_copyright_from_pod ) {
+  if ( undef and my $copy = $self->_copyright_from_pod ) {
     $out .= $copy;
+  } else {
+    $out .= $self->_copyright_from_dist;
   }
   return $out;
 
@@ -165,6 +167,12 @@ sub _description {
   return $text;
 }
 
+sub _copyright_from_dist {
+  # Construct a copyright even if the POD doesn't have one
+  my ( $self ) = @_;
+  my $notice = $self->zilla->license->notice;
+  return qq[COPYRIGHT AND LICENSE\n\n$notice];
+}
 sub _copyright_from_pod {
   my ($self)  = @_;
   my $pod     = $self->_source_pod;
