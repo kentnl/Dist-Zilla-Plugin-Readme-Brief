@@ -101,7 +101,7 @@ sub _generate_content {
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
   if ( my $installer = $self->_generate_installer ) {
-    $out .= "To install this module manually:\n$installer\n";
+    $out .= "To install this module manually:\n\n$installer\n";
   }
   if ( my $copy = $self->_copyright_from_pod ) {
     $out .= $copy;
@@ -139,7 +139,7 @@ sub _configured_installer {
     push @sections, $self->$method();
   }
   return unless @sections;
-  return join qq[\nor\n], @sections;
+  return join qq[\nor\n\n], @sections;
 }
 
 sub _source_pm_file {

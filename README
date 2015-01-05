@@ -23,12 +23,14 @@ To install this module automatically, any of the following may work:
   cpanp -i .
 
 To install this module manually:
+
   perl Build.PL
   ./Build
   ./Build test
   ./Build install
 
 or
+
   perl Makefile.PL
   make
   make test
