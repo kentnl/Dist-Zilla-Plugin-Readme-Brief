@@ -5,7 +5,7 @@ do { my $x = {
                                         },
                         'requires' => {
                                         'ExtUtils::MakeMaker' => '0',
-                                        'perl' => '5.006'
+                                        'perl' => '5.010'
                                       }
                       },
        'develop' => {
@@ -90,7 +90,7 @@ do { my $x = {
                                       'Pod::Elemental::Transformer::Pod5' => '0',
                                       'Pod::Text' => '0',
                                       'Safe::Isa' => '0',
-                                      'perl' => '5.006',
+                                      'perl' => '5.010',
                                       'strict' => '0',
                                       'warnings' => '0'
                                     }
@@ -105,7 +105,7 @@ do { my $x = {
                                    'ExtUtils::MakeMaker' => '0',
                                    'File::Spec' => '0',
                                    'Test::More' => '0.89',
-                                   'perl' => '5.006'
+                                   'perl' => '5.010'
                                  }
                  }
      };

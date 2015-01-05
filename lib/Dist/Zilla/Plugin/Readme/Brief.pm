@@ -1,4 +1,4 @@
-use 5.006;    # our
+use 5.010;    # m regexp propagation
 use strict;
 use warnings;
 
@@ -83,7 +83,7 @@ sub _source_pod {
       top_selector => Pod::Elemental::Selectors::s_command('head1'),
       content_selectors =>
         [ Pod::Elemental::Selectors::s_flat, Pod::Elemental::Selectors::s_command( [qw(head2 head3 head4 over item back)] ), ],
-    }
+    },
   );
   $nester->transform_node($document);
 
@@ -92,7 +92,7 @@ sub _source_pod {
 }
 
 sub _get_docname_via_statement {
-  my ( $self, $ppi_document ) = @_;
+  my ( undef, $ppi_document ) = @_;
 
   my $pkg_node = $ppi_document->find_first('PPI::Statement::Package');
   return unless $pkg_node;
@@ -106,9 +106,9 @@ sub _get_docname_via_comment {
 }
 
 sub _extract_comment_content {
-  my ( $self, $ppi_document, $key ) = @_;
+  my ( undef, $ppi_document, $key ) = @_;
 
-  my $regex = qr/^\s*#+\s*$key:\s*(.+)$/m;
+  my $regex = qr/^\s*#+\s*$key:\s*(.+)$/mx;
 
   my $content;
   my $finder = sub {
@@ -152,18 +152,18 @@ sub _description {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless $nodes[$node_number]->content eq 'DESCRIPTION';
+    next unless 'DESCRIPTION' eq $nodes[$node_number]->content;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
     $self->log( "DESCRIPTION not found in " . $self->_source_pm_file->name );
-    return '';
+    return q[];
   }
   require Pod::Text;
 
   my $parser = Pod::Text->new();
   $parser->output_string( \( my $text ) );
-  $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } map { @{ $_->children } } @found );
+  $parser->parse_string_document( join qq[\n], '=pod', q[], map { $_->as_pod_string } map { @{ $_->children } } @found );
 
   # strip extra indent;
   $text =~ s{^[ ]{4}}{}msxg;
