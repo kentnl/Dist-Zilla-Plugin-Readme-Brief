@@ -1,6 +1,13 @@
 This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL dependencies for all phases (configure/build/runtime/test/develop)
 
 0.001002
+ [Added / runtime requires]
+ - Dist::Zilla::Util::ConfigDumper
+ - Moose::Util::TypeConstraints
+ - MooseX::Types::Moose
+
+ [Changed / develop suggests]
+ - Dist::Zilla::PluginBundle::Author::KENTNL 2.022003 → 2.022004
 
 0.001001 2015-01-05T09:53:04Z
 
