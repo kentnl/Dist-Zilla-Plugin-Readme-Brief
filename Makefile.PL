@@ -32,7 +32,6 @@ my %WriteMakefileArgs = (
     "Pod::Elemental::Transformer::Nester" => 0,
     "Pod::Elemental::Transformer::Pod5" => 0,
     "Pod::Text" => 0,
-    "Safe::Isa" => 0,
     "strict" => 0,
     "warnings" => 0
   },
@@ -62,7 +61,6 @@ my %FallbackPrereqs = (
   "Pod::Elemental::Transformer::Nester" => 0,
   "Pod::Elemental::Transformer::Pod5" => 0,
   "Pod::Text" => 0,
-  "Safe::Isa" => 0,
   "Test::More" => "0.89",
   "strict" => 0,
   "warnings" => 0

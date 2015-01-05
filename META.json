@@ -104,7 +104,6 @@
             "Pod::Elemental::Transformer::Nester" : "0",
             "Pod::Elemental::Transformer::Pod5" : "0",
             "Pod::Text" : "0",
-            "Safe::Isa" : "0",
             "perl" : "5.010",
             "strict" : "0",
             "warnings" : "0"
@@ -131,6 +130,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief/issues"
+      },
+      "homepage" : "https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief.git",
+         "web" : "https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief"
+      }
+   },
    "version" : "0.001000",
    "x_BuiltWith" : {
       "external_file" : "misc/built_with.json"
