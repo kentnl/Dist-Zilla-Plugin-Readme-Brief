@@ -56,6 +56,8 @@ has 'installer' => (
   },
 );
 
+no Moose::Util::TypeConstraints;
+
 around 'mvp_multivalue_args' => sub {
   my ( $orig, $self, @rest ) = @_;
   return ( $self->$orig(@rest), 'installer' );
