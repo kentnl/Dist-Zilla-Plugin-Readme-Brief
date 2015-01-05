@@ -30,6 +30,7 @@
          "requires" : {
             "Dist::Zilla" : "5",
             "Dist::Zilla::Plugin::Author::KENTNL::RecommendFixes" : "0.001001",
+            "Dist::Zilla::Plugin::Author::KENTNL::TravisCI" : "0",
             "Dist::Zilla::Plugin::Authority" : "1.006",
             "Dist::Zilla::Plugin::AutoPrereqs" : "0",
             "Dist::Zilla::Plugin::Bootstrap::lib" : "0",
@@ -744,6 +745,11 @@
             },
             "name" : "@Author::KENTNL/::Role::BundleDeps",
             "version" : "5.029"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Author::KENTNL::TravisCI",
+            "name" : "Author::KENTNL::TravisCI",
+            "version" : "0.001000"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",

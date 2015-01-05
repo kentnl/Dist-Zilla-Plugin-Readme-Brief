@@ -509,6 +509,10 @@ x_Dist_Zilla:
       name: '@Author::KENTNL/::Role::BundleDeps'
       version: '5.029'
     -
+      class: Dist::Zilla::Plugin::Author::KENTNL::TravisCI
+      name: Author::KENTNL::TravisCI
+      version: '0.001000'
+    -
       class: Dist::Zilla::Plugin::Prereqs
       config:
         Dist::Zilla::Plugin::Prereqs:
