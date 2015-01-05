@@ -292,7 +292,7 @@ that contains just the essential details about your dist a casual consumer would
 
 =back
 
-=item * I<ALL> Copyright and license details are extracted from C<main_module> in any C<H1Nest> that has either 
+=item * I<ALL> Copyright and license details are extracted from C<main_module> in any C<H1Nest> that has either
 
 C<COPYRIGHT> or C<LICENSE> in the heading.
 
