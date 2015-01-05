@@ -287,7 +287,7 @@ that contains just the essential details about your dist a casual consumer would
 
 =item * The name of the primary module in the distribution
 
-=item * The distributions main modules description
+=item * The distribution's main modules description
 
 =item * Simple installation instructions from an extracted archive
 
