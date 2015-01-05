@@ -6,7 +6,7 @@ casual consumer would want to know.
 
 *   The name of the primary module in the distribution
 
-*   The distributions main modules description
+*   The distribution's main modules description
 
 *   Simple installation instructions from an extracted archive
 
@@ -22,7 +22,7 @@ To install this module automatically, any of the following may work:
   cpan  .
   cpanp -i .
 
-To install this module manually
+To install this module manually:
 
   perl Makefile.PL
   make

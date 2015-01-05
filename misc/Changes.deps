@@ -1,4 +1,10 @@
 This file contains changes in REQUIRED dependencies for standard CPAN phases (configure/build/runtime/test)
 
-0.001001
+0.002000
+ [Added / runtime requires]
+ - Dist::Zilla::Util::ConfigDumper
+ - Moose::Util::TypeConstraints
+ - MooseX::Types::Moose
+
+0.001001 2015-01-05T09:53:04Z
 
