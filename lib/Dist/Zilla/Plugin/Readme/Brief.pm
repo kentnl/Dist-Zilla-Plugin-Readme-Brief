@@ -18,6 +18,10 @@ with 'Dist::Zilla::Role::FileGatherer';
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
+=for Pod::Coverage gather_files
+
+=cut
+
 sub gather_files {
   my ($self) = @_;
   require Dist::Zilla::File::FromCode;
