@@ -41,17 +41,18 @@ sub _generate_content {
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
   if ( grep { $_->name =~ /\A_Makefile.PL\z/msx } @{ $self->zilla->files } ) {
-   $out .= $self->_install_eumm . qq[\n];
-  } elsif (  grep { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
-   $out .= $self->_install_mb . qq[\n];
+    $out .= $self->_install_eumm . qq[\n];
   }
-  if ( undef and my $copy = $self->_copyright_from_pod ) {
+  elsif ( grep { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
+    $out .= $self->_install_mb . qq[\n];
+  }
+  if ( my $copy = $self->_copyright_from_pod ) {
     $out .= $copy;
-  } else {
+  }
+  else {
     $out .= $self->_copyright_from_dist;
   }
   return $out;
-
 
 }
 
@@ -168,11 +169,13 @@ sub _description {
 }
 
 sub _copyright_from_dist {
+
   # Construct a copyright even if the POD doesn't have one
-  my ( $self ) = @_;
+  my ($self) = @_;
   my $notice = $self->zilla->license->notice;
   return qq[COPYRIGHT AND LICENSE\n\n$notice];
 }
+
 sub _copyright_from_pod {
   my ($self)  = @_;
   my $pod     = $self->_source_pod;
@@ -198,7 +201,6 @@ sub _copyright_from_pod {
   my $parser = Pod::Text->new( loose => 1 );
   $parser->output_string( \( my $text ) );
   $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } @found );
-
 
   # strip extra indent;
   $text =~ s{^[ ]{4}}{}msxg;
