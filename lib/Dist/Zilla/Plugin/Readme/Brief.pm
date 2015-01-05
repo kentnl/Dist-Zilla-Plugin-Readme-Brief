@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.001000';
+our $VERSION = '0.001001';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -252,7 +252,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.001000
+version 0.001001
 
 =head1 SYNOPSIS
 
@@ -280,7 +280,7 @@ that contains just the essential details about your dist a casual consumer would
 
 =head1 NOTE
 
-This is sill reasonably fresh code and reasonably experimental, and feature enhancements and bug fixes
+This is still reasonably fresh code and reasonably experimental, and feature enhancements and bug fixes
 are actively desired.
 
 However, bugs are highly likely to be encountered, especially as there are no tests.
