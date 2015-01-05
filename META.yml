@@ -348,6 +348,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Readme::Brief:
           installer:
             - mb
+            - eumm
       name: '@Author::KENTNL/ShippedReadme'
       version: '0.001002'
     -

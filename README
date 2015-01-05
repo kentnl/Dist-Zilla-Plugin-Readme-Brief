@@ -28,6 +28,12 @@ To install this module manually
   ./Build
   ./Build test
   ./Build install
+To install this module manually
+
+  perl Makefile.PL
+  make
+  make test
+  make install
 
 COPYRIGHT AND LICENSE
 

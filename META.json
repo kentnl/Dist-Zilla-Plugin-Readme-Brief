@@ -536,7 +536,8 @@
             "config" : {
                "Dist::Zilla::Plugin::Readme::Brief" : {
                   "installer" : [
-                     "mb"
+                     "mb",
+                     "eumm"
                   ]
                }
             },
