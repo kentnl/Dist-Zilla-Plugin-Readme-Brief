@@ -45,6 +45,9 @@ sub _generate_content {
   } elsif (  grep { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
    $out .= $self->_install_mb . qq[\n];
   }
+  if ( my $copy = $self->_copyright_from_pod ) {
+    $out .= $copy;
+  }
   return $out;
 
 
@@ -153,8 +156,6 @@ sub _description {
   }
   require Pod::Text;
 
-  # Note: this stuff is because Pod::Text doesn't like partial documents
-  # and chews output if there's no heading :(
   my $parser = Pod::Text->new();
   $parser->output_string( \( my $text ) );
   $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } map { @{ $_->children } } @found );
@@ -162,6 +163,39 @@ sub _description {
   # strip extra indent;
   $text =~ s{^[ ]{4}}{}msxg;
   return $text;
+}
+
+sub _copyright_from_pod {
+  my ($self)  = @_;
+  my $pod     = $self->_source_pod;
+  my (@nodes) = @{ $pod->children };
+
+  my @found;
+
+  require Pod::Elemental::Selectors;
+
+  for my $node_number ( 0 .. $#nodes ) {
+    next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
+    next unless $nodes[$node_number]->content =~ /COPYRIGHT|LICENSE/;
+    push @found, $nodes[$node_number];
+  }
+  if ( not @found ) {
+    $self->log( "COPYRIGHT/LICENSE not found in " . $self->_source_pm_file->name );
+    return;
+  }
+  require Pod::Text;
+
+  # Note: this stuff is because Pod::Text doesn't like partial documents
+  # and chews output if there's no heading :(
+  my $parser = Pod::Text->new();
+  $parser->output_string( \( my $text ) );
+  $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } @found );
+
+
+  # strip extra indent;
+  $text =~ s{^[ ]{4}}{}msxg;
+  return $text;
+
 }
 
 sub _install_auto {
