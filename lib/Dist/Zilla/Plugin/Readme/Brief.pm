@@ -49,10 +49,22 @@ sub _source_pod {
   require Encode;
   require Pod::Elemental;
   require Pod::Elemental::Transformer::Pod5;
+  require Pod::Elemental::Transformer::Nester;
+  require Pod::Elemental::Selectors;
 
   my $octets  = Encode::encode('UTF-8', $chars, Encode::FB_CROAK);
   my $document = Pod::Elemental->read_string( $octets  );
   Pod::Elemental::Transformer::Pod5->new->transform_node($document);
+
+  my $nester = Pod::Elemental::Transformer::Nester->new({
+    top_selector      => Pod::Elemental::Selectors::s_command('head1'),
+    content_selectors => [
+      Pod::Elemental::Selectors::s_command([ qw(head2 head3 head4) ]),
+      Pod::Elemental::Selectors::s_flat,
+    ],
+  });
+  $nester->transform_node($document);
+
   $self->{_pod_cache} = $document;
   return $document;
 }

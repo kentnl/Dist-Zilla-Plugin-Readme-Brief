@@ -29,6 +29,7 @@ requires:
   Moose: '0'
   Pod::Elemental: '0'
   Pod::Elemental::Selectors: '0'
+  Pod::Elemental::Transformer::Nester: '0'
   Pod::Elemental::Transformer::Pod5: '0'
   Pod::Text: '0'
   perl: '5.006'
