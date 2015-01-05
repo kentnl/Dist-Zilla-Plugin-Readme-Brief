@@ -10,10 +10,65 @@ our $VERSION = '0.001002';
 
 # AUTHORITY
 
-use Moose qw( with );
+use Moose qw( with has around );
 use List::Util qw( first );
+use MooseX::Types::Moose qw( ArrayRef );
+use Moose::Util::TypeConstraints qw( enum );
+use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
+
 with 'Dist::Zilla::Role::PPI';
 with 'Dist::Zilla::Role::FileGatherer';
+
+my %installers = (
+  'eumm' => '_install_eumm',
+  'mb'   => '_install_mb',
+);
+
+=attr installer
+
+Determines what installers to document in the C<INSTALLATION> section.
+
+By default, that section is determined based on the presence of certain
+files in your C<dist>.
+
+However, in the event you have multiple installers supported, manually specifying
+this attribute allows you to control which, or all, and the order.
+
+  installer = eumm ; # only eumm
+
+  installer = eumm
+  installer = mb     ; EUMM shown first, MB shown second
+
+  installer = mb
+  installer = eumm   ; EUMM shown second, MB shown first
+
+The verbiage however has not yet been cleaned up such that having both is completely lucid.
+
+=cut
+
+has 'installer' => (
+  isa => ArrayRef [ enum( [ keys %installers ] ) ],
+  is => 'ro',
+  traits    => ['Array'],
+  predicate => 'has_installer',
+  handles   => {
+    '_installers' => 'elements',
+  },
+);
+
+no Moose::Util::TypeConstraints;
+
+around 'mvp_multivalue_args' => sub {
+  my ( $orig, $self, @rest ) = @_;
+  return ( $self->$orig(@rest), 'installer' );
+};
+
+around 'mvp_aliases' => sub {
+  my ( $orig, $self, @rest ) = @_;
+  return { %{ $self->$orig(@rest) }, installers => 'installer' };
+};
+
+around dump_config => config_dumper( __PACKAGE__, { attrs => ['installer'] } );
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -45,11 +100,8 @@ sub _generate_content {
   $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
-  if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
-    $out .= $self->_install_eumm . qq[\n];
-  }
-  elsif ( first { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
-    $out .= $self->_install_mb . qq[\n];
+  if ( my $installer = $self->_generate_installer ) {
+    $out .= "To install this module manually:\n\n$installer\n";
   }
   if ( my $copy = $self->_copyright_from_pod ) {
     $out .= $copy;
@@ -58,7 +110,36 @@ sub _generate_content {
     $out .= $self->_copyright_from_dist;
   }
   return $out;
+}
 
+sub _generate_installer {
+  my ( $self ) = @_;
+  if ( $self->has_installer ) {
+    return $self->_configured_installer;
+  }
+  return $self->_auto_installer;
+}
+
+sub _auto_installer {
+  my ($self) = @_;
+  if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
+    return $self->_install_eumm;
+  }
+  elsif ( first { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
+    return $self->_install_mb;
+  }
+  return;
+}
+
+sub _configured_installer {
+  my ($self) = @_;
+  my @sections;
+  for my $installer ( $self->_installers ) {
+    my $method = $installers{$installer};
+    push @sections, $self->$method();
+  }
+  return unless @sections;
+  return join qq[\nor\n\n], @sections;
 }
 
 sub _source_pm_file {
@@ -218,8 +299,6 @@ EOFAUTO
 
 sub _install_eumm {
   return <<"EOFEUMM";
-To install this module manually
-
   perl Makefile.PL
   make
   make test
@@ -229,8 +308,6 @@ EOFEUMM
 
 sub _install_mb {
   return <<"EOFMB";
-To install this module manually
-
   perl Build.PL
   ./Build
   ./Build test
@@ -243,7 +320,8 @@ EOFMB
 =head1 SYNOPSIS
 
   [Readme::Brief]
-  ; No tunables at this time
+  ; Override autodeteced install method
+  installer = eumm
 
 =head1 NOTE
 

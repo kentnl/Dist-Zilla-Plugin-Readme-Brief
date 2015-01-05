@@ -4,12 +4,13 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 # VERSION
 
-version 0.001002
+version 0.002000
 
 # SYNOPSIS
 
     [Readme::Brief]
-    ; No tunables at this time
+    ; Override autodeteced install method
+    installer = eumm
 
 # DESCRIPTION
 
@@ -17,7 +18,7 @@ This provides a terse but informative README file for your CPAN distribution
 that contains just the essential details about your dist a casual consumer would want to know.
 
 - The name of the primary module in the distribution
-- The distributions main modules description
+- The distribution's main modules description
 - Simple installation instructions from an extracted archive
 - Short copyright information
 
@@ -38,6 +39,28 @@ However, bugs are highly likely to be encountered, especially as there are no te
     - In the case of both, only instructions for `Makefile.PL` will be emitted. (**`TODO`:Be adjustable**)
 - _ALL_ Copyright and license details are extracted from `main_module` in any `H1Nest` that has either `COPYRIGHT` or `LICENSE` in the heading.
 - Or failing such a section, a `COPYRIGHT AND LICENSE` section will be derived from `zilla->license`
+
+# ATTRIBUTES
+
+## installer
+
+Determines what installers to document in the `INSTALLATION` section.
+
+By default, that section is determined based on the presence of certain
+files in your `dist`.
+
+However, in the event you have multiple installers supported, manually specifying
+this attribute allows you to control which, or all, and the order.
+
+    installer = eumm ; # only eumm
+
+    installer = eumm
+    installer = mb     ; EUMM shown first, MB shown second
+
+    installer = mb
+    installer = eumm   ; EUMM shown second, MB shown first
+
+The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
 # AUTHOR
 
