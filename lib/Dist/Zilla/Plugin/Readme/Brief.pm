@@ -346,7 +346,9 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =item * A C<Build.PL> file in your dist ( where it assumes C<Module::Build> style )
 
-=item * In the case of both, only instructions for C<Makefile.PL> will be emitted. (B<C<TODO>:Be adjustable>)
+=item * In the case of both, only instructions for C<Makefile.PL> will be emitted.
+
+=item * All of the above behavior can be overridden using the L<< C<installer>|/installer >> attribute.
 
 =back
 

@@ -36,7 +36,8 @@ However, bugs are highly likely to be encountered, especially as there are no te
 - Installation instructions are automatically determined by the presence of either
     - A `Makefile.PL` file in your dist ( Where it assumes `EUMM` style )
     - A `Build.PL` file in your dist ( where it assumes `Module::Build` style )
-    - In the case of both, only instructions for `Makefile.PL` will be emitted. (**`TODO`:Be adjustable**)
+    - In the case of both, only instructions for `Makefile.PL` will be emitted.
+    - All of the above behavior can be overridden using the [`installer`](#installer) attribute.
 - _ALL_ Copyright and license details are extracted from `main_module` in any `H1Nest` that has either `COPYRIGHT` or `LICENSE` in the heading.
 - Or failing such a section, a `COPYRIGHT AND LICENSE` section will be derived from `zilla->license`
 
