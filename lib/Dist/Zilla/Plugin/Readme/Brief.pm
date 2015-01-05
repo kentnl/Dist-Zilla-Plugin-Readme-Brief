@@ -187,7 +187,7 @@ sub _copyright_from_pod {
 
   # Note: this stuff is because Pod::Text doesn't like partial documents
   # and chews output if there's no heading :(
-  my $parser = Pod::Text->new();
+  my $parser = Pod::Text->new( loose => 1 );
   $parser->output_string( \( my $text ) );
   $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } @found );
 
