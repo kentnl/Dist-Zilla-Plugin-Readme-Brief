@@ -40,7 +40,7 @@ sub _generate_content {
   $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
-  if ( grep { $_->name =~ /\A_Makefile.PL\z/msx } @{ $self->zilla->files } ) {
+  if ( grep { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
     $out .= $self->_install_eumm . qq[\n];
   }
   elsif ( grep { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
