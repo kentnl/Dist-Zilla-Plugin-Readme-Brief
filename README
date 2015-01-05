@@ -5,10 +5,14 @@ DESCRIPTION
     distribution that contains just the essential details about your dist a
     casual consumer would want to know.
 
-POD ERRORS
-    Hey! The above document had some coding errors, which are explained
-    below:
+    *   The name of the primary module in the distribution
 
-    Around line 7:
-        =over is the last thing in the document?!
+    *   The distributions main modules description
+
+    *   Simple installation instructions from an extracted archive
+
+    *   Short copyright information
+
+AUTHOR
+    Kent Fredric <kentnl@cpan.org>
 

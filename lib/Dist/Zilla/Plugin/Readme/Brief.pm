@@ -59,8 +59,8 @@ sub _source_pod {
   my $nester = Pod::Elemental::Transformer::Nester->new({
     top_selector      => Pod::Elemental::Selectors::s_command('head1'),
     content_selectors => [
-      Pod::Elemental::Selectors::s_command([ qw(head2 head3 head4) ]),
       Pod::Elemental::Selectors::s_flat,
+      Pod::Elemental::Selectors::s_command([ qw(head2 head3 head4 over item back) ]),
     ],
   });
   $nester->transform_node($document);
