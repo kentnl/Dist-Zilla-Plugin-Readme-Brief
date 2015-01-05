@@ -10,10 +10,41 @@ our $VERSION = '0.001002';
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
-use Moose qw( with );
+use Moose qw( with has around );
 use List::Util qw( first );
+use MooseX::Types::Moose qw( ArrayRef );
+use Moose::Util::TypeConstraints qw( enum );
+use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
+
 with 'Dist::Zilla::Role::PPI';
 with 'Dist::Zilla::Role::FileGatherer';
+
+my %installers = (
+  'eumm' => '_install_eumm',
+  'mb'   => '_install_mb',
+);
+
+has 'installer' => (
+  isa => ArrayRef [ enum( [ keys %installers ] ) ],
+  is => 'ro',
+  traits    => ['Array'],
+  predicate => 'has_installer',
+  handles   => {
+    '_installers' => 'elements',
+  },
+);
+
+around 'mvp_multivalue_args' => sub {
+  my ( $orig, $self, @rest ) = @_;
+  return ( $self->$orig(@rest), 'installer' );
+};
+
+around 'mvp_aliases' => sub {
+  my ( $orig, $self, @rest ) = @_;
+  return { %{ $self->$orig(@rest) }, installers => 'installer' };
+};
+
+around dump_config => config_dumper( __PACKAGE__, { attrs => 'installer' } );
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -45,6 +76,7 @@ sub _generate_content {
   $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
+
   if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
     $out .= $self->_install_eumm . qq[\n];
   }
@@ -58,7 +90,27 @@ sub _generate_content {
     $out .= $self->_copyright_from_dist;
   }
   return $out;
+}
 
+sub _auto_installer {
+  my ($self) = @_;
+  if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
+    return $self->_install_eumm;
+  }
+  elsif ( first { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
+    return $self->_install_mb;
+  }
+  return '';
+}
+
+sub _configured_installer {
+  my ($self) = @_;
+  my $out = q[];
+  for my $installer ( $self->_installers ) {
+    my $method = $installers{$installer};
+    $out .= $self->$method();
+  }
+  return $out;
 }
 
 sub _source_pm_file {
@@ -268,7 +320,7 @@ that contains just the essential details about your dist a casual consumer would
 
 =item * The name of the primary module in the distribution
 
-=item * The distributions main modules description
+=item * The distribution's main modules description
 
 =item * Simple installation instructions from an extracted archive
 
