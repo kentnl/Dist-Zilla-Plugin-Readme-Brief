@@ -247,7 +247,7 @@ EOFMB
 
 =head1 NOTE
 
-This is sill reasonably fresh code and reasonably experimental, and feature enhancements and bug fixes
+This is still reasonably fresh code and reasonably experimental, and feature enhancements and bug fixes
 are actively desired.
 
 However, bugs are highly likely to be encountered, especially as there are no tests.
