@@ -1,3 +1,7 @@
 Dist::Zilla::Plugin::Readme::Brief
 
 DESCRIPTION
+    This provides a terse but informative README file for your CPAN
+    distribution that contains just the essential details about your dist a
+    casual consumer would want to know.
+
