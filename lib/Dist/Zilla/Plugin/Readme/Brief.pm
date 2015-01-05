@@ -236,6 +236,37 @@ EOFMB
 
 1;
 
+=head1 SYNOPSIS
+
+  [Readme::Brief]
+  ; No tunables at this time
+
+=head1 MECHANICS
+
+=over 4
+
+=item * Heading is derived from the C<package> statement in C<main_module>
+
+=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> in C<main_module>
+
+=item * Installation instructions are automatically determined by the presence of either
+
+=over 2
+
+=item * A C<Makefile.PL> file in your dist ( Where it assumes C<EUMM> style )
+
+=item * A C<Build.PL> file in your dist ( where it assumes C<Module::Build> style )
+
+=item * In the case of both, only instructions for C<Makefile.PL> will be emitted. (B<C<TODO>:Be adjustable>)
+
+=back
+
+=item * I<ALL> Copyright and license details are extracted from C<main_module> in any C<H1Nest> that has either C<COPYRIGHT> or C<LICENSE> in the heading.
+
+=item * Or failing such a section, a C<COPYRIGHT AND LICENSE> section will be derived from C<< zilla->license >>
+
+=back
+
 =head1 DESCRIPTION
 
 This provides a terse but informative README file for your CPAN distribution

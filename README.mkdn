@@ -6,6 +6,11 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 version 0.001000
 
+# SYNOPSIS
+
+    [Readme::Brief]
+    ; No tunables at this time
+
 # DESCRIPTION
 
 This provides a terse but informative README file for your CPAN distribution
@@ -15,6 +20,17 @@ that contains just the essential details about your dist a casual consumer would
 - The distributions main modules description
 - Simple installation instructions from an extracted archive
 - Short copyright information
+
+# MECHANICS
+
+- Heading is derived from the `package` statement in `main_module`
+- Description is extracted as the entire `H1Nest` of the section titled `DESCRIPTION` in `main_module`
+- Installation instructions are automatically determined by the presence of either
+    - A `Makefile.PL` file in your dist ( Where it assumes `EUMM` style )
+    - A `Build.PL` file in your dist ( where it assumes `Module::Build` style )
+    - In the case of both, only instructions for `Makefile.PL` will be emitted. (**`TODO`:Be adjustable**)
+- _ALL_ Copyright and license details are extracted from `main_module` in any `H1Nest` that has either `COPYRIGHT` or `LICENSE` in the heading.
+- Or failing such a section, a `COPYRIGHT AND LICENSE` section will be derived from `zilla->license`
 
 # AUTHOR
 
