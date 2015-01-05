@@ -334,7 +334,7 @@ version 0.001002
 
   [Readme::Brief]
   ; Override autodeteced install method
-  installer = eumm 
+  installer = eumm
 
 =head1 DESCRIPTION
 
