@@ -100,12 +100,8 @@ sub _generate_content {
   $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto . qq[\n];
-
-  if ( $self->has_installer ) {
-    $out .= $self->_configured_installer . "\n";
-  }
-  elsif ( my $installer = $self->_auto_installer ) {
-    $out .= "$installer\n";
+  if ( my $installer = $self->_generate_installer ) {
+    $out .= "To install this module manually:\n$installer\n";
   }
   if ( my $copy = $self->_copyright_from_pod ) {
     $out .= $copy;
@@ -114,6 +110,14 @@ sub _generate_content {
     $out .= $self->_copyright_from_dist;
   }
   return $out;
+}
+
+sub _generate_installer {
+  my ( $self ) = @_;
+  if ( $self->has_installer ) {
+    return $self->_configured_installer;
+  }
+  return $self->_auto_installer;
 }
 
 sub _auto_installer {
@@ -129,12 +133,13 @@ sub _auto_installer {
 
 sub _configured_installer {
   my ($self) = @_;
-  my $out = q[];
+  my @sections;
   for my $installer ( $self->_installers ) {
     my $method = $installers{$installer};
-    $out .= $self->$method();
+    push @sections, $self->$method();
   }
-  return $out;
+  return unless @sections;
+  return join qq[\nor\n], @sections;
 }
 
 sub _source_pm_file {
@@ -294,7 +299,6 @@ EOFAUTO
 
 sub _install_eumm {
   return <<"EOFEUMM";
-To install this module manually
 
   perl Makefile.PL
   make

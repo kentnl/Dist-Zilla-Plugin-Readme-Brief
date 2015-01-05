@@ -22,13 +22,15 @@ To install this module automatically, any of the following may work:
   cpan  .
   cpanp -i .
 
+To install this module manually:
 To install this module manually
 
   perl Build.PL
   ./Build
   ./Build test
   ./Build install
-To install this module manually
+
+or
 
   perl Makefile.PL
   make
