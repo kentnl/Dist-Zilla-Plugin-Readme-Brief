@@ -3,6 +3,7 @@ Release history for Dist-Zilla-Plugin-Readme-Brief
 {{$NEXT}}
  [Documentation]
  - Fix up outdated references/properly reference new attribute.
+ - More minor spelling mistakes
 
 0.002000 2015-01-05T19:51:57Z c592ce7
  [Dependencies::Stats]

@@ -320,7 +320,7 @@ EOFMB
 =head1 SYNOPSIS
 
   [Readme::Brief]
-  ; Override autodeteced install method
+  ; Override autodetected install method
   installer = eumm
 
 =head1 NOTE

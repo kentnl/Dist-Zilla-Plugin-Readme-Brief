@@ -9,7 +9,7 @@ version 0.002001
 # SYNOPSIS
 
     [Readme::Brief]
-    ; Override autodeteced install method
+    ; Override autodetected install method
     installer = eumm
 
 # DESCRIPTION
