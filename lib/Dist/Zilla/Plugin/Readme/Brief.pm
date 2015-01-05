@@ -296,7 +296,7 @@ that contains just the essential details about your dist a casual consumer would
 
 C<COPYRIGHT> or C<LICENSE> in the heading.
 
-=item * Or failing such a section, a C<COPYRIGHT AND LICENSE> section wil be derived from C<< zilla->license >>
+=item * Or failing such a section, a C<COPYRIGHT AND LICENSE> section will be derived from C<< zilla->license >>
 
 =back
 
