@@ -119,6 +119,25 @@ sub _heading {
   return $self->_get_docname( $document );
 }
 
+sub _format_nodes {
+  my ( $self , $root ) = @_;
+  require Pod::Text;
+  # Note: this stuff is because Pod::Text doesn't like partial documents
+  # and chews output if there's no heading :(
+  my $parser = Pod::Text->new();
+  $parser->output_string( \( my $text ) );
+  $parser->parse_string_document( $root->as_pod_string );
+  # Hack #1, Strip the H1
+  $text =~ s{
+    \A      # From the start of the string
+    \s*     # Nuke whitespace
+    \w      # Then a block of at least one non-whitespace character
+    [^\n]+  # Followed by a bunch anything other than a \n
+    $       # Ending at a line end somewhere 
+  }{}msx;
+  # Hack 
+}
+
 sub _description {
   my ( $self ) = @_;
   my $pod  = $self->_source_pod;
@@ -134,14 +153,19 @@ sub _description {
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log("DESCRIPTION not found in " . $self->_source_pm_file->name );
+    $self->log("DESCRIPTION not found in " . $self->_source_pm_file->name  );
     return '';
   }
   require Pod::Text;
+  # Note: this stuff is because Pod::Text doesn't like partial documents
+  # and chews output if there's no heading :(
   my $parser = Pod::Text->new();
   $parser->output_string( \( my $text ) );
-#  return join qq[\n], map { $_->as_pod_string } @found;
-  $parser->parse_string_document( join qq[\n], map { $_->as_pod_string } map { @{ $_->children } } @found );
+  $parser->parse_string_document( 
+    join qq[\n], '=pod','', map { $_->as_pod_string } map { @{ $_->children } } @found );
+
+ #  return join qq[\n], map { $_->as_pod_string } @found;
+#  $parser->parse_string_document( join qq[\n], map { $_->as_pod_string } map { @{ $_->children } } @found );
   return $text;
 }
 
