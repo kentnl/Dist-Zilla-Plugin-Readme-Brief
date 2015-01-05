@@ -24,10 +24,10 @@ To install this module automatically, any of the following may work:
 
 To install this module manually
 
-  perl Makefile.PL
-  make
-  make test
-  make install
+  perl Build.PL
+  ./Build
+  ./Build test
+  ./Build install
 
 COPYRIGHT AND LICENSE
 
