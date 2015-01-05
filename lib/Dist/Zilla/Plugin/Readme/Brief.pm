@@ -397,7 +397,7 @@ this attribute allows you to control which, or all, and the order.
 
   installer = eumm ; # only eumm
 
-  installer = eumm 
+  installer = eumm
   installer = mb     ; EUMM shown first, MB shown second
 
   installer = mb
