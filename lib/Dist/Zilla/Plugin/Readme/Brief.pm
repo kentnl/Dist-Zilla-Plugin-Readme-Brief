@@ -255,6 +255,25 @@ version 0.001000
   [Readme::Brief]
   ; No tunables at this time
 
+=head1 DESCRIPTION
+
+This provides a terse but informative README file for your CPAN distribution
+that contains just the essential details about your dist a casual consumer would want to know.
+
+=over 4
+
+=item * The name of the primary module in the distribution
+
+=item * The distributions main modules description
+
+=item * Simple installation instructions from an extracted archive
+
+=item * Short copyright information
+
+=back
+
+=head1 MECHANICS
+
 =over 4
 
 =item * Heading is derived from the C<package> statement in C<main_module>
@@ -278,23 +297,6 @@ version 0.001000
 C<COPYRIGHT> or C<LICENSE> in the heading.
 
 =item * Or failing such a section, a C<COPYRIGHT AND LICENSE> section wil be derived from C<< zilla->license >>
-
-=back
-
-=head1 DESCRIPTION
-
-This provides a terse but informative README file for your CPAN distribution
-that contains just the essential details about your dist a casual consumer would want to know.
-
-=over 4
-
-=item * The name of the primary module in the distribution
-
-=item * The distributions main modules description
-
-=item * Simple installation instructions from an extracted archive
-
-=item * Short copyright information
 
 =back
 
