@@ -533,14 +533,6 @@
          },
          {
             "class" : "Dist::Zilla::Plugin::Readme::Brief",
-            "config" : {
-               "Dist::Zilla::Plugin::Readme::Brief" : {
-                  "installer" : [
-                     "mb",
-                     "eumm"
-                  ]
-               }
-            },
             "name" : "@Author::KENTNL/ShippedReadme",
             "version" : "0.001002"
          },
