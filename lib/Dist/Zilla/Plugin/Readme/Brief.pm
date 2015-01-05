@@ -128,7 +128,8 @@ sub _description {
   require Pod::Text;
   my $parser = Pod::Text->new();
   $parser->output_string( \( my $text ) );
-  $parser->parse_string_document( $_->as_pod_string ) for @found;
+  return join qq[\n], map { $_->as_pod_string } @found;
+#  $parser->parse_string_document( $_->as_pod_string ) for @found;
   return $text;
 }
 
