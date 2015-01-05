@@ -106,7 +106,7 @@ sub _get_docname_via_comment {
 }
 
 sub _extract_comment_content {
-  my ( undef, $ppi_document, $key ) = @_; ## no critic (Variables::ProhibitUnusedVarsStricter)
+  my ( undef, $ppi_document, $key ) = @_;    ## no critic (Variables::ProhibitUnusedVarsStricter)
 
   my $regex = qr/^\s*#+\s*$key:\s*(.+)$/mx;
 
@@ -135,6 +135,18 @@ sub _get_docname {
   return $docname;
 }
 
+sub _podtext_nodes {
+  my ( undef, @nodes ) = @_;
+  require Pod::Text;
+  my $parser = Pod::Text->new( loose => 1 );
+  $parser->output_string( \( my $text ) );
+  $parser->parse_string_document( join qq[\n], '=pod', q[], map { $_->as_pod_string } @nodes );
+
+  # strip extra indent;
+  $text =~ s{^[ ]{4}}{}msxg;
+  return $text;
+}
+
 sub _heading {
   my ($self) = @_;
   my $document = $self->ppi_document_for_file( $self->_source_pm_file );
@@ -156,18 +168,10 @@ sub _description {
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( "DESCRIPTION not found in " . $self->_source_pm_file->name );
+    $self->log( 'DESCRIPTION not found in ' . $self->_source_pm_file->name );
     return q[];
   }
-  require Pod::Text;
-
-  my $parser = Pod::Text->new();
-  $parser->output_string( \( my $text ) );
-  $parser->parse_string_document( join qq[\n], '=pod', q[], map { $_->as_pod_string } map { @{ $_->children } } @found );
-
-  # strip extra indent;
-  $text =~ s{^[ ]{4}}{}msxg;
-  return $text;
+  return $self->_podtext_nodes( map { @{ $_->children } } @found );
 }
 
 sub _copyright_from_dist {
@@ -196,18 +200,7 @@ sub _copyright_from_pod {
     $self->log( 'COPYRIGHT/LICENSE not found in ' . $self->_source_pm_file->name );
     return;
   }
-  require Pod::Text;
-
-  # Note: this stuff is because Pod::Text doesn't like partial documents
-  # and chews output if there's no heading :(
-  my $parser = Pod::Text->new( loose => 1 );
-  $parser->output_string( \( my $text ) );
-  $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } @found );
-
-  # strip extra indent;
-  $text =~ s{^[ ]{4}}{}msxg;
-  return $text;
-
+  return $self->_podtext_nodes(@found);
 }
 
 sub _install_auto {
