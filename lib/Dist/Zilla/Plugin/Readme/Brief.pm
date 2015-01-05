@@ -11,6 +11,7 @@ our $VERSION = '0.001000';
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Moose qw( with );
+use Safe::Isa;
 with 'Dist::Zilla::Role::PPI';
 with 'Dist::Zilla::Role::FileGatherer';
 
@@ -34,7 +35,19 @@ sub gather_files {
 
 sub _generate_content {
   my ($self) = @_;
-  return $self->_heading . qq[\n\n] . $self->_description;
+  my $out = q[];
+  $out .= $self->_heading . qq[\n\n];
+  $out .= $self->_description . qq[\n\n];
+  $out .= qq[INSTALLATION\n\n];
+  $out .= $self->_install_auto . qq[\n\n];
+  if ( grep { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
+   $out .= $self->_install_eumm . qq[\n\n];
+  } elsif (  grep { $_->name =~ /\ABuild.PL\z/msx } @{ $self->zilla->files } ) {
+   $out .= $self->_install_mb . qq[\n\n];
+  }
+  return $out;
+
+
 }
 
 sub _source_pm_file {
@@ -145,9 +158,43 @@ sub _description {
   my $parser = Pod::Text->new();
   $parser->output_string( \( my $text ) );
   $parser->parse_string_document( join qq[\n], '=pod', '', map { $_->as_pod_string } map { @{ $_->children } } @found );
+
   # strip extra indent;
   $text =~ s{^[ ]{4}}{}msxg;
   return $text;
+}
+
+sub _install_auto {
+  return <<"EOFAUTO";
+To install this module automatically, any of the following may work:
+
+  cpanm .
+  cpan  .
+  cpanp -i .
+
+EOFAUTO
+}
+
+sub _install_eumm {
+  return <<"EOFEUMM";
+To install this module manually
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+EOFEUMM
+}
+
+sub _install_mb {
+  return <<"EOFMB";
+To install this module manually
+
+  perl Build.PL
+  ./Build
+  ./Build test
+  ./Build install
+EOFMB
 }
 
 1;

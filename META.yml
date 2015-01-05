@@ -32,6 +32,7 @@ requires:
   Pod::Elemental::Transformer::Nester: '0'
   Pod::Elemental::Transformer::Pod5: '0'
   Pod::Text: '0'
+  Safe::Isa: '0'
   perl: '5.006'
   strict: '0'
   warnings: '0'

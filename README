@@ -12,3 +12,23 @@ casual consumer would want to know.
 
 *   Short copyright information
 
+
+
+INSTALLATION
+
+To install this module automatically, any of the following may work:
+
+  cpanm .
+  cpan  .
+  cpanp -i .
+
+
+
+To install this module manually
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+
+
