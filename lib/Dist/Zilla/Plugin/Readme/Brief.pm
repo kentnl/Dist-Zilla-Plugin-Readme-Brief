@@ -99,10 +99,11 @@ sub _generate_content {
   $out .= $self->_heading . qq[\n\n];
   $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
-  $out .= $self->_install_auto . qq[\n];
+  $out .= $self->_install_auto;
   if ( my $installer = $self->_generate_installer ) {
-    $out .= "To install this module manually:\n\n$installer\n";
+    $out .= $installer;
   }
+  $out .= qq[\n];
   if ( my $copy = $self->_copyright_from_pod ) {
     $out .= $copy . qq[\n];
   }
@@ -114,10 +115,11 @@ sub _generate_content {
 
 sub _generate_installer {
   my ( $self ) = @_;
+  my $out = "Should you wish to install this module manually, the procedure is\n\n";
   if ( $self->has_installer ) {
-    return $self->_configured_installer;
+    return $out . $self->_configured_installer;
   }
-  return $self->_auto_installer;
+  return $out . $self->_auto_installer;
 }
 
 sub _auto_installer {
@@ -290,11 +292,14 @@ sub _copyright_from_pod {
 
 sub _install_auto {
   return <<"EOFAUTO";
-To install this module automatically, any of the following may work:
+This is a Perl module distribution. It should be installed with whichever
+tool you use to manage your installation of Perl, e.g. any of
 
   cpanm .
   cpan  .
   cpanp -i .
+
+Consult http://www.cpan.org/modules/INSTALL.html for further instruction.
 EOFAUTO
 }
 
