@@ -12,17 +12,17 @@ casual consumer would want to know.
 
 *   Short copyright information
 
-
-
 INSTALLATION
 
-To install this module automatically, any of the following may work:
+This is a Perl module distribution. It should be installed with whichever
+tool you use to manage your installation of Perl, e.g. any of
 
   cpanm .
   cpan  .
   cpanp -i .
 
-To install this module manually:
+Consult http://www.cpan.org/modules/INSTALL.html for further instruction.
+Should you wish to install this module manually, the procedure is
 
   perl Makefile.PL
   make
@@ -36,4 +36,3 @@ This software is copyright (c) 2015 by Kent Fredric
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
-

@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.002000';
+our $VERSION = '0.002001';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -95,29 +95,36 @@ sub gather_files {
 
 sub _generate_content {
   my ($self) = @_;
+  # each section should end with exactly one trailing newline
+  return join qq[\n], $self->_description_section, $self->_installer_section, $self->_copyright_section;
+}
+
+sub _description_section {
+  my ($self) = @_;
+  return $self->_heading . qq[\n\n] . $self->_description . qq[\n];
+}
+
+sub _installer_section {
+  my ($self) = @_;
   my $out = q[];
-  $out .= $self->_heading . qq[\n\n];
-  $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
-  $out .= $self->_install_auto . qq[\n];
-  if ( my $installer = $self->_generate_installer ) {
-    $out .= "To install this module manually:\n\n$installer\n";
-  }
-  if ( my $copy = $self->_copyright_from_pod ) {
-    $out .= $copy;
+  $out .= $self->_install_auto;
+  $out .= "Should you wish to install this module manually, the procedure is\n\n";
+  if ( $self->has_installer ) {
+    $out .= $self->_configured_installer;
   }
   else {
-    $out .= $self->_copyright_from_dist;
+    $out .= $self->_auto_installer;
   }
   return $out;
 }
 
-sub _generate_installer {
-  my ( $self ) = @_;
-  if ( $self->has_installer ) {
-    return $self->_configured_installer;
+sub _copyright_section {
+  my ($self) = @_;
+  if ( my $copy = $self->_copyright_from_pod ) {
+    return $copy . qq[\n];
   }
-  return $self->_auto_installer;
+  return $self->_copyright_from_dist;
 }
 
 sub _auto_installer {
@@ -228,6 +235,7 @@ sub _podtext_nodes {
 
   # strip extra indent;
   $text =~ s{^[ ]{4}}{}msxg;
+  $text =~ s{\n+\z}{}msx;
   return $text;
 }
 
@@ -289,11 +297,14 @@ sub _copyright_from_pod {
 
 sub _install_auto {
   return <<"EOFAUTO";
-To install this module automatically, any of the following may work:
+This is a Perl module distribution. It should be installed with whichever
+tool you use to manage your installation of Perl, e.g. any of
 
   cpanm .
   cpan  .
   cpanp -i .
+
+Consult http://www.cpan.org/modules/INSTALL.html for further instruction.
 EOFAUTO
 }
 
@@ -329,12 +340,12 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.002000
+version 0.002001
 
 =head1 SYNOPSIS
 
   [Readme::Brief]
-  ; Override autodeteced install method
+  ; Override autodetected install method
   installer = eumm
 
 =head1 DESCRIPTION
@@ -377,7 +388,9 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =item * A C<Build.PL> file in your dist ( where it assumes C<Module::Build> style )
 
-=item * In the case of both, only instructions for C<Makefile.PL> will be emitted. (B<C<TODO>:Be adjustable>)
+=item * In the case of both, only instructions for C<Makefile.PL> will be emitted.
+
+=item * All of the above behavior can be overridden using the L<< C<installer>|/installer >> attribute.
 
 =back
 
