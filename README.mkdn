@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 # VERSION
 
-version 0.002001
+version 0.002002
 
 # SYNOPSIS
 
