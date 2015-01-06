@@ -95,31 +95,36 @@ sub gather_files {
 
 sub _generate_content {
   my ($self) = @_;
+  # each section should end with exactly one trailing newline
+  return join qq[\n], $self->_description_section, $self->_installer_section, $self->_copyright_section;
+}
+
+sub _description_section {
+  my ($self) = @_;
+  return $self->_heading . qq[\n\n] . $self->_description . qq[\n];
+}
+
+sub _installer_section {
+  my ($self) = @_;
   my $out = q[];
-  $out .= $self->_heading . qq[\n\n];
-  $out .= $self->_description . qq[\n\n];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto;
-  if ( my $installer = $self->_generate_installer ) {
-    $out .= $installer;
-  }
-  $out .= qq[\n];
-  if ( my $copy = $self->_copyright_from_pod ) {
-    $out .= $copy . qq[\n];
+  $out .= "Should you wish to install this module manually, the procedure is\n\n";
+  if ( $self->has_installer ) {
+    $out .= $self->_configured_installer;
   }
   else {
-    $out .= $self->_copyright_from_dist;
+    $out .= $self->_auto_installer;
   }
   return $out;
 }
 
-sub _generate_installer {
-  my ( $self ) = @_;
-  my $out = "Should you wish to install this module manually, the procedure is\n\n";
-  if ( $self->has_installer ) {
-    return $out . $self->_configured_installer;
+sub _copyright_section {
+  my ($self) = @_;
+  if ( my $copy = $self->_copyright_from_pod ) {
+    return $copy . qq[\n];
   }
-  return $out . $self->_auto_installer;
+  return $self->_copyright_from_dist;
 }
 
 sub _auto_installer {
