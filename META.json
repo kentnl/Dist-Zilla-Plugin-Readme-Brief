@@ -842,6 +842,7 @@
    },
    "x_authority" : "cpan:KENTNL",
    "x_contributors" : [
+      "Aristotle Pagaltzis <pagaltzis@gmx.de>",
       "Karen Etheridge <ether@cpan.org>"
    ]
 }

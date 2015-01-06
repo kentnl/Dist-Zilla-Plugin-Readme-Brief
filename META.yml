@@ -578,4 +578,5 @@ x_Dist_Zilla:
     version: '5.030'
 x_authority: cpan:KENTNL
 x_contributors:
+  - 'Aristotle Pagaltzis <pagaltzis@gmx.de>'
   - 'Karen Etheridge <ether@cpan.org>'
