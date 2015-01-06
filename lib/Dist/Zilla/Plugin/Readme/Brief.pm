@@ -104,7 +104,7 @@ sub _generate_content {
     $out .= "To install this module manually:\n\n$installer\n";
   }
   if ( my $copy = $self->_copyright_from_pod ) {
-    $out .= $copy;
+    $out .= $copy . qq[\n];
   }
   else {
     $out .= $self->_copyright_from_dist;
@@ -228,6 +228,7 @@ sub _podtext_nodes {
 
   # strip extra indent;
   $text =~ s{^[ ]{4}}{}msxg;
+  $text =~ s{\n+\z}{}msx;
   return $text;
 }
 
