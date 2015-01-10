@@ -63,6 +63,35 @@ this attribute allows you to control which, or all, and the order.
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
+# SEE ALSO
+
+Here are some competing modules and how this module differs from them.
+
+- [`[Readme]`](https://metacpan.org/pod/Dist::Zilla::Plugin::Readme)
+
+    Gives a much briefer more generic `README` file, which lacks quite as much readable content,
+    and contains no installation instructions.
+
+- [`[ReadmeFromPod]`](https://metacpan.org/pod/Dist::Zilla::Plugin::ReadmeFromPod)
+
+    Provides various output formats, but ultimately is a transformer of your `main_module`'s `POD`,
+    which is excessive for some peoples tastes. ( And lacks install instructions )
+
+- [`[ReadmeAnyFromPod]`](https://metacpan.org/pod/Dist::Zilla::Plugin::ReadmeAnyFromPod)
+
+    Based on the above provides a bunch of extra features, but is ultimately limited
+    in similar ways with regards to install details and verbosity.
+
+- [`[Pod2Readme]`](https://metacpan.org/pod/Dist::Zilla::Plugin::Pod2Readme)
+
+    Possibly the most straight forward `POD` → `README` translator, but limited like the above
+    in that it is _only_ a `POD` translator, but lacks the install instructions aspect.
+
+- [`[InstallGuide]`](https://metacpan.org/pod/Dist::Zilla::Plugin::InstallGuide)
+
+    The polar opposite approach that only focuses on elaborate installation instructions in `INSTALL`,
+    but lacks any of the `POD` and `COPYRIGHT` elements.
+
 # AUTHOR
 
 Kent Fredric <kentnl@cpan.org>
