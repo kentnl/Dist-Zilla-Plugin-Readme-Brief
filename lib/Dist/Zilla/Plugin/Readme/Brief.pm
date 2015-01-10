@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.002001';
+our $VERSION = '0.002002';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -340,7 +340,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.002001
+version 0.002002
 
 =head1 SYNOPSIS
 
@@ -423,6 +423,39 @@ this attribute allows you to control which, or all, and the order.
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
 =for Pod::Coverage gather_files
+
+=head1 SEE ALSO
+
+Here are some competing modules and how this module differs from them.
+
+=over 4
+
+=item * L<< C<[Readme]>|Dist::Zilla::Plugin::Readme >>
+
+Gives a much briefer more generic C<README> file, which lacks quite as much readable content,
+and contains no installation instructions.
+
+=item * L<< C<[ReadmeFromPod]>|Dist::Zilla::Plugin::ReadmeFromPod >>
+
+Provides various output formats, but ultimately is a transformer of your C<main_module>'s C<POD>,
+which is excessive for some peoples tastes. ( And lacks install instructions )
+
+=item * L<< C<[ReadmeAnyFromPod]>|Dist::Zilla::Plugin::ReadmeAnyFromPod >>
+
+Based on the above provides a bunch of extra features, but is ultimately limited
+in similar ways with regards to install details and verbosity.
+
+=item * L<< C<[Pod2Readme]>|Dist::Zilla::Plugin::Pod2Readme >>
+
+Possibly the most straight forward C<POD> → C<README> translator, but limited like the above
+in that it is I<only> a C<POD> translator, but lacks the install instructions aspect.
+
+=item * L<< C<[InstallGuide]>|Dist::Zilla::Plugin::InstallGuide >>
+
+The polar opposite approach that only focuses on elaborate installation instructions in C<INSTALL>,
+but lacks any of the C<POD> and C<COPYRIGHT> elements.
+
+=back
 
 =head1 AUTHOR
 

@@ -1,5 +1,9 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
+0.002002 2015-01-10T08:32:27Z c5f7a4f
+ [Documentation]
+ - Add a SEE ALSO section
+
 0.002001 2015-01-06T05:12:46Z a5cdb4b
  [Documentation]
  - Fix up outdated references/properly reference new attribute.
