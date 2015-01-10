@@ -432,7 +432,7 @@ Here are some competing modules and how this module differs from them.
 
 =item * L<< C<[Readme]>|Dist::Zilla::Plugin::Readme >>
 
-Gives a much briefer more generic C<README> file, which lacks quite as much readable content, 
+Gives a much briefer more generic C<README> file, which lacks quite as much readable content,
 and contains no installation instructions.
 
 =item * L<< C<[ReadmeFromPod]>|Dist::Zilla::Plugin::ReadmeFromPod >>
