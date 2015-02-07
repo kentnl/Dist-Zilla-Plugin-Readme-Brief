@@ -3,7 +3,7 @@ abstract: 'Provide a short simple README with just the essentials'
 author:
   - 'Kent Fredric <kentnl@cpan.org>'
 build_requires:
-  Dist::Zilla::Util::Test::KENTNL: '0'
+  Dist::Zilla::Util::Test::KENTNL: '1.004'
   ExtUtils::MakeMaker: '0'
   File::Spec: '0'
   Test::DZil: '0'

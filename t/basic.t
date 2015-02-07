@@ -5,7 +5,7 @@ use Test::More;
 
 # ABSTRACT: Basic Test
 
-use Dist::Zilla::Util::Test::KENTNL qw( dztest );
+use Dist::Zilla::Util::Test::KENTNL 1.004 qw( dztest );
 use Test::DZil qw( simple_ini );
 
 my $test = dztest();

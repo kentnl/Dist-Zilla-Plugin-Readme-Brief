@@ -10,6 +10,10 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  [Added / runtime requires]
  - PPIx::DocumentName
 
+ [Added / test requires]
+ - Dist::Zilla::Util::Test::KENTNL
+ - Test::DZil
+
  [Changed / configure recommends]
  - ExtUtils::MakeMaker 7.04 → 7.00
 

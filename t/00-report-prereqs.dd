@@ -108,7 +108,7 @@ do { my $x = {
                                      'Test::More' => '0.99'
                                    },
                    'requires' => {
-                                   'Dist::Zilla::Util::Test::KENTNL' => '0',
+                                   'Dist::Zilla::Util::Test::KENTNL' => '1.004',
                                    'ExtUtils::MakeMaker' => '0',
                                    'File::Spec' => '0',
                                    'Test::DZil' => '0',
