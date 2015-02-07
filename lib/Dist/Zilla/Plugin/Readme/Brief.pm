@@ -119,7 +119,7 @@ sub _installer_section {
     $out .= $manual_instructions;
   }
   else {
-    $self->log("No install method detected. Omitting Manual Installation Instructions");
+    $self->log('No install method detected. Omitting Manual Installation Instructions');
   }
   return $out;
 }
