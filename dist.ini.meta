@@ -20,6 +20,4 @@ srcreadme         = mkdn
 twitter_extra_hash_tags = #distzilla
 ; auto_prereqs_skip = File::Find
 
-[Author::KENTNL::TravisCI]
-
 [Prereqs]
