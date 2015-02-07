@@ -7,6 +7,9 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  [Added / runtime recommends]
  - Moose 2.000
 
+ [Added / runtime requires]
+ - PPIx::DocumentName
+
  [Changed / configure recommends]
  - ExtUtils::MakeMaker 7.04 → 7.00
 

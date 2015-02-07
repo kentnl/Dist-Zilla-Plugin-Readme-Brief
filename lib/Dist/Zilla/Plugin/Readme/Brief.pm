@@ -15,6 +15,7 @@ use List::Util qw( first );
 use MooseX::Types::Moose qw( ArrayRef );
 use Moose::Util::TypeConstraints qw( enum );
 use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
+use PPIx::DocumentName;
 
 with 'Dist::Zilla::Role::PPI';
 with 'Dist::Zilla::Role::FileGatherer';
@@ -182,50 +183,6 @@ sub _source_pod {
   return $document;
 }
 
-sub _get_docname_via_statement {
-  my ( undef, $ppi_document ) = @_;
-
-  my $pkg_node = $ppi_document->find_first('PPI::Statement::Package');
-  return unless $pkg_node;
-  return $pkg_node->namespace;
-}
-
-sub _get_docname_via_comment {
-  my ( $self, $ppi_document ) = @_;
-
-  return $self->_extract_comment_content( $ppi_document, 'PODNAME' );
-}
-
-sub _extract_comment_content {
-  my ( undef, $ppi_document, $key ) = @_;    ## no critic (Variables::ProhibitUnusedVarsStricter)
-
-  my $regex = qr/^\s*#+\s*$key:\s*(.+)$/mx;  ## no critic (RegularExpressions::RequireDotMatchAnything)
-
-  my $content;
-  my $finder = sub {
-    my $node = $_[1];
-    return 0 unless $node->isa('PPI::Token::Comment');
-    if ( $node->content =~ $regex ) {
-      $content = $1;
-      return 1;
-    }
-    return 0;
-  };
-
-  $ppi_document->find_first($finder);
-
-  return $content;
-}
-
-sub _get_docname {
-  my ( $self, $ppi_document ) = @_;
-
-  my $docname = $self->_get_docname_via_comment($ppi_document)
-    || $self->_get_docname_via_statement($ppi_document);
-
-  return $docname;
-}
-
 sub _podtext_nodes {
   my ( undef, @nodes ) = @_;
   require Pod::Text;
@@ -242,7 +199,7 @@ sub _podtext_nodes {
 sub _heading {
   my ($self) = @_;
   my $document = $self->ppi_document_for_file( $self->_source_pm_file );
-  return $self->_get_docname($document);
+  return PPIx::DocumentName->extract($document);
 }
 
 sub _description {
