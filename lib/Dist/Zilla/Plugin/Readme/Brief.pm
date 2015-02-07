@@ -110,12 +110,15 @@ sub _installer_section {
   my $out = q[];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto;
-  $out .= "Should you wish to install this module manually, the procedure is\n\n";
-  if ( $self->has_installer ) {
-    $out .= $self->_configured_installer;
+
+  my $manual_instructions = ( $self->has_installer ) ? $self->_configured_installer : $self->_auto_installer;
+
+  if ( defined $manual_instructions ) {
+    $out .= "Should you wish to install this module manually, the procedure is\n\n";
+    $out .= $manual_instructions;
   }
   else {
-    $out .= $self->_auto_installer;
+    $self->log('No install method detected. Omitting Manual Installation Instructions');
   }
   return $out;
 }
@@ -130,6 +133,7 @@ sub _copyright_section {
 
 sub _auto_installer {
   my ($self) = @_;
+  $self->log_debug('Autodetecting installer');
   if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
     return $self->_install_eumm;
   }
@@ -141,6 +145,8 @@ sub _auto_installer {
 
 sub _configured_installer {
   my ($self) = @_;
+  $self->log_debug('Using configured installer');
+
   my @sections;
   for my $installer ( $self->_installers ) {
     my $method = $installers{$installer};

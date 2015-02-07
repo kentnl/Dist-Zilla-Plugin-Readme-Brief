@@ -1,6 +1,10 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
 {{$NEXT}}
+ [Bugfix]
+ - When manual installation instructions are impossible to devise, don't give instructions pertaining to manual
+   techniques.
+
  [Dependencies::Stats]
  - Dependencies changed since 0.002002, see misc/*.deps* for details
  - configure: (recommends: ↓1)
