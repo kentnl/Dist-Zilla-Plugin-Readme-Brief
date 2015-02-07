@@ -96,6 +96,7 @@ sub gather_files {
 
 sub _generate_content {
   my ($self) = @_;
+
   # each section should end with exactly one trailing newline
   return join qq[\n], $self->_description_section, $self->_installer_section, $self->_copyright_section;
 }
