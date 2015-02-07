@@ -10,7 +10,9 @@ my @files = (
     'lib/Dist/Zilla/Plugin/Readme/Brief.pm',
     't/00-compile/lib_Dist_Zilla_Plugin_Readme_Brief_pm.t',
     't/00-report-prereqs.dd',
-    't/00-report-prereqs.t'
+    't/00-report-prereqs.t',
+    't/basic.t',
+    't/podname.t'
 );
 
 eol_unix_ok($_, { trailing_whitespace => 1 }) foreach @files;
