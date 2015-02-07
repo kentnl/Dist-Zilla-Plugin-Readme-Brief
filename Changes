@@ -10,10 +10,13 @@ Release history for Dist-Zilla-Plugin-Readme-Brief
  - configure: (recommends: ↓1)
  - develop: +1 ↑1 -1 (recommends: ↓1, suggests: ↑1)
  - runtime: +1 (recommends: +1)
- - test: (recommends: ↓2)
+ - test: +2 (recommends: ↓2)
 
  [Internals]
  - Factor out document name extraction logic into PPIx::DocumentName
+
+ [Tests]
+ - Some added!
 
 0.002002 2015-01-10T08:32:27Z c5f7a4f
  [Documentation]
