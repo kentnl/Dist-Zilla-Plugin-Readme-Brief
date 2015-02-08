@@ -11,7 +11,7 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  - PPIx::DocumentName
 
  [Added / test requires]
- - Dist::Zilla::Util::Test::KENTNL
+ - Dist::Zilla::Util::Test::KENTNL 1.004
  - Test::DZil
 
  [Changed / configure recommends]

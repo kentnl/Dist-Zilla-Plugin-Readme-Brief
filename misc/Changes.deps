@@ -5,7 +5,7 @@ This file contains changes in REQUIRED dependencies for standard CPAN phases (co
  - PPIx::DocumentName
 
  [Added / test requires]
- - Dist::Zilla::Util::Test::KENTNL
+ - Dist::Zilla::Util::Test::KENTNL 1.004
  - Test::DZil
 
 0.002002 2015-01-10T08:32:27Z
