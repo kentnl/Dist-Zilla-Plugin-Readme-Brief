@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.002002';
+our $VERSION = '0.002003';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -15,6 +15,7 @@ use List::Util qw( first );
 use MooseX::Types::Moose qw( ArrayRef );
 use Moose::Util::TypeConstraints qw( enum );
 use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
+use PPIx::DocumentName;
 
 with 'Dist::Zilla::Role::PPI';
 with 'Dist::Zilla::Role::FileGatherer';
@@ -95,6 +96,7 @@ sub gather_files {
 
 sub _generate_content {
   my ($self) = @_;
+
   # each section should end with exactly one trailing newline
   return join qq[\n], $self->_description_section, $self->_installer_section, $self->_copyright_section;
 }
@@ -109,12 +111,15 @@ sub _installer_section {
   my $out = q[];
   $out .= qq[INSTALLATION\n\n];
   $out .= $self->_install_auto;
-  $out .= "Should you wish to install this module manually, the procedure is\n\n";
-  if ( $self->has_installer ) {
-    $out .= $self->_configured_installer;
+
+  my $manual_instructions = ( $self->has_installer ) ? $self->_configured_installer : $self->_auto_installer;
+
+  if ( defined $manual_instructions ) {
+    $out .= "Should you wish to install this module manually, the procedure is\n\n";
+    $out .= $manual_instructions;
   }
   else {
-    $out .= $self->_auto_installer;
+    $self->log('No install method detected. Omitting Manual Installation Instructions');
   }
   return $out;
 }
@@ -129,6 +134,7 @@ sub _copyright_section {
 
 sub _auto_installer {
   my ($self) = @_;
+  $self->log_debug('Autodetecting installer');
   if ( first { $_->name =~ /\AMakefile.PL\z/msx } @{ $self->zilla->files } ) {
     return $self->_install_eumm;
   }
@@ -140,6 +146,8 @@ sub _auto_installer {
 
 sub _configured_installer {
   my ($self) = @_;
+  $self->log_debug('Using configured installer');
+
   my @sections;
   for my $installer ( $self->_installers ) {
     my $method = $installers{$installer};
@@ -182,50 +190,6 @@ sub _source_pod {
   return $document;
 }
 
-sub _get_docname_via_statement {
-  my ( undef, $ppi_document ) = @_;
-
-  my $pkg_node = $ppi_document->find_first('PPI::Statement::Package');
-  return unless $pkg_node;
-  return $pkg_node->namespace;
-}
-
-sub _get_docname_via_comment {
-  my ( $self, $ppi_document ) = @_;
-
-  return $self->_extract_comment_content( $ppi_document, 'PODNAME' );
-}
-
-sub _extract_comment_content {
-  my ( undef, $ppi_document, $key ) = @_;    ## no critic (Variables::ProhibitUnusedVarsStricter)
-
-  my $regex = qr/^\s*#+\s*$key:\s*(.+)$/mx;  ## no critic (RegularExpressions::RequireDotMatchAnything)
-
-  my $content;
-  my $finder = sub {
-    my $node = $_[1];
-    return 0 unless $node->isa('PPI::Token::Comment');
-    if ( $node->content =~ $regex ) {
-      $content = $1;
-      return 1;
-    }
-    return 0;
-  };
-
-  $ppi_document->find_first($finder);
-
-  return $content;
-}
-
-sub _get_docname {
-  my ( $self, $ppi_document ) = @_;
-
-  my $docname = $self->_get_docname_via_comment($ppi_document)
-    || $self->_get_docname_via_statement($ppi_document);
-
-  return $docname;
-}
-
 sub _podtext_nodes {
   my ( undef, @nodes ) = @_;
   require Pod::Text;
@@ -242,7 +206,7 @@ sub _podtext_nodes {
 sub _heading {
   my ($self) = @_;
   my $document = $self->ppi_document_for_file( $self->_source_pm_file );
-  return $self->_get_docname($document);
+  return PPIx::DocumentName->extract($document);
 }
 
 sub _description {
@@ -340,7 +304,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.002002
+version 0.002003
 
 =head1 SYNOPSIS
 

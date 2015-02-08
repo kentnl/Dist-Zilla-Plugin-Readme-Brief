@@ -1,5 +1,23 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
+0.002003 2015-02-07T13:50:23Z 7a70821
+ [Bugfix]
+ - When manual installation instructions are impossible to devise, don't give instructions pertaining to manual
+   techniques.
+
+ [Dependencies::Stats]
+ - Dependencies changed since 0.002002, see misc/*.deps* for details
+ - configure: (recommends: ↓1)
+ - develop: +1 ↑1 -1 (recommends: ↓1, suggests: ↑1)
+ - runtime: +1 (recommends: +1)
+ - test: +2 (recommends: ↓2)
+
+ [Internals]
+ - Factor out document name extraction logic into PPIx::DocumentName
+
+ [Tests]
+ - Some added!
+
 0.002002 2015-01-10T08:32:27Z c5f7a4f
  [Documentation]
  - Add a SEE ALSO section
