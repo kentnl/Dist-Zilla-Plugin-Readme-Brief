@@ -1,5 +1,7 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
+0.002004 2015-02-08T10:37:36Z 4d8f59c
+
 0.002003 2015-02-07T13:50:23Z 7a70821
  [Bugfix]
  - When manual installation instructions are impossible to devise, don't give instructions pertaining to manual
