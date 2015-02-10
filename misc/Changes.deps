@@ -1,6 +1,8 @@
 This file contains changes in REQUIRED dependencies for standard CPAN phases (configure/build/runtime/test)
 
 0.002004
+ [Added / runtime requires]
+ - PPI::Document
 
 0.002003 2015-02-07T13:50:23Z
  [Added / runtime requires]
