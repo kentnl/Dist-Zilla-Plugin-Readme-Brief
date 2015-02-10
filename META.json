@@ -136,7 +136,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::Readme::Brief" : {
          "file" : "lib/Dist/Zilla/Plugin/Readme/Brief.pm",
-         "version" : "0.002004"
+         "version" : "0.002005"
       }
    },
    "release_status" : "stable",
@@ -151,7 +151,7 @@
          "web" : "https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief"
       }
    },
-   "version" : "0.002004",
+   "version" : "0.002005",
    "x_BuiltWith" : {
       "external_file" : "misc/built_with.json"
    },
@@ -549,7 +549,7 @@
          {
             "class" : "Dist::Zilla::Plugin::Readme::Brief",
             "name" : "@Author::KENTNL/ShippedReadme",
-            "version" : "0.002004"
+            "version" : "0.002005"
          },
          {
             "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
@@ -631,7 +631,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : null,
                   "signed" : 0,
-                  "tag" : "0.002004-source",
+                  "tag" : "0.002005-source",
                   "tag_format" : "%v-source",
                   "tag_message" : "v%v",
                   "time_zone" : "local"
@@ -702,7 +702,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : "releases",
                   "signed" : 0,
-                  "tag" : "0.002004",
+                  "tag" : "0.002005",
                   "tag_format" : "%v",
                   "tag_message" : "v%v",
                   "time_zone" : "local"
