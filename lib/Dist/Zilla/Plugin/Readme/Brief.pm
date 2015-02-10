@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.002003';
+our $VERSION = '0.002004';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -205,6 +205,7 @@ sub _podtext_nodes {
 
 sub _heading {
   my ($self) = @_;
+  require PPI::Document;    # Historic version of dzil doesn't load PPI on its own...
   my $document = $self->ppi_document_for_file( $self->_source_pm_file );
   return PPIx::DocumentName->extract($document);
 }
@@ -304,7 +305,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.002003
+version 0.002004
 
 =head1 SYNOPSIS
 

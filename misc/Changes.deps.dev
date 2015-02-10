@@ -1,6 +1,8 @@
 This file contains changes to DEVELOPMENT dependencies only ( both REQUIRED and OPTIONAL )
 
-0.002003
+0.002004
+
+0.002003 2015-02-07T13:50:23Z
  [Added / develop requires]
  - Dist::Zilla::Plugin::Prereqs::Upgrade
 

@@ -30,6 +30,7 @@ my %WriteMakefileArgs = (
     "Moose" => 0,
     "Moose::Util::TypeConstraints" => 0,
     "MooseX::Types::Moose" => 0,
+    "PPI::Document" => 0,
     "PPIx::DocumentName" => 0,
     "Pod::Elemental" => 0,
     "Pod::Elemental::Selectors" => 0,
@@ -46,7 +47,7 @@ my %WriteMakefileArgs = (
     "Test::DZil" => 0,
     "Test::More" => "0.89"
   },
-  "VERSION" => "0.002003",
+  "VERSION" => "0.002004",
   "test" => {
     "TESTS" => "t/*.t t/00-compile/*.t"
   }
@@ -66,6 +67,7 @@ my %FallbackPrereqs = (
   "Moose" => 0,
   "Moose::Util::TypeConstraints" => 0,
   "MooseX::Types::Moose" => 0,
+  "PPI::Document" => 0,
   "PPIx::DocumentName" => 0,
   "Pod::Elemental" => 0,
   "Pod::Elemental::Selectors" => 0,
