@@ -1,6 +1,8 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
 {{$NEXT}}
+
+0.002004 2015-02-10T05:40:49Z c959a13
  [Bugfix]
  - Require PPI::Document manually for older DZils that didn't load it on their own.
 
