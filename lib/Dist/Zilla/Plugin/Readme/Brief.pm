@@ -205,6 +205,7 @@ sub _podtext_nodes {
 
 sub _heading {
   my ($self) = @_;
+  require PPI::Document;    # Historic version of dzil doesn't load PPI on its own...
   my $document = $self->ppi_document_for_file( $self->_source_pm_file );
   return PPIx::DocumentName->extract($document);
 }
