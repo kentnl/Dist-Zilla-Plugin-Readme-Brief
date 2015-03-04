@@ -12,7 +12,8 @@ my @files = (
     't/00-report-prereqs.dd',
     't/00-report-prereqs.t',
     't/basic.t',
-    't/podname.t'
+    't/podname.t',
+    't/podnameci.t'
 );
 
 eol_unix_ok($_, { trailing_whitespace => 1 }) foreach @files;

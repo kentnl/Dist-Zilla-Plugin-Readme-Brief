@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.002004';
+our $VERSION = '0.002005';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -221,7 +221,7 @@ sub _description {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless 'DESCRIPTION' eq $nodes[$node_number]->content;
+    next unless 'DESCRIPTION' eq uc $nodes[$node_number]->content;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
@@ -250,7 +250,7 @@ sub _copyright_from_pod {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless $nodes[$node_number]->content =~ /COPYRIGHT|LICENSE/msx;
+    next unless $nodes[$node_number]->content =~ /COPYRIGHT|LICENSE/imsx;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
@@ -305,7 +305,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.002004
+version 0.002005
 
 =head1 SYNOPSIS
 
