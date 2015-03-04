@@ -5,6 +5,9 @@ Release history for Dist-Zilla-Plugin-Readme-Brief
  - Dependencies changed since 0.002004, see misc/*.deps* for details
  - develop: (suggests: ↑1)
 
+ [Features]
+ - Now matches DESCRIPTION and COPYRIGHT/LICENSE headers case insensitively. Patch thanks to David Wheeler w/ #3.
+
 0.002004 2015-02-10T05:40:49Z c959a13
  [Bugfix]
  - Require PPI::Document manually for older DZils that didn't load it on their own.
