@@ -59,6 +59,14 @@ has 'installer' => (
 
 no Moose::Util::TypeConstraints;
 
+
+
+
+
+
+
+
+
 has 'description_label' => (
   isa     => Str,
   is      => 'ro',
@@ -76,7 +84,7 @@ around 'mvp_aliases' => sub {
   return { %{ $self->$orig(@rest) }, installers => 'installer' };
 };
 
-around dump_config => config_dumper( __PACKAGE__, { attrs => ['installer'] } );
+around dump_config => config_dumper( __PACKAGE__, { attrs => [ 'installer', 'description_label' ] } );
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -228,7 +236,7 @@ sub _description {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless $self->description_label eq uc $nodes[$node_number]->content;
+    next unless uc $self->description_label eq uc $nodes[$node_number]->content;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
@@ -395,6 +403,12 @@ this attribute allows you to control which, or all, and the order.
   installer = eumm   ; EUMM shown second, MB shown first
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
+
+=head2 description_label
+
+This case-insensitive attribute defines what C<=head1> node will be used for the description section of the brief.
+
+By default, this is C<DESCRIPTION>.
 
 =for Pod::Coverage gather_files
 
