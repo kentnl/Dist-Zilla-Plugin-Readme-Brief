@@ -12,7 +12,7 @@ our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Moose qw( with has around );
 use List::Util qw( first );
-use MooseX::Types::Moose qw( ArrayRef );
+use MooseX::Types::Moose qw( ArrayRef Str );
 use Moose::Util::TypeConstraints qw( enum );
 use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
 use PPIx::DocumentName;
@@ -58,6 +58,13 @@ has 'installer' => (
 );
 
 no Moose::Util::TypeConstraints;
+
+has 'description_label' => (
+  isa => Str,
+  is => 'ro',
+  lazy => 1,
+  default => sub { 'DESCRIPTION' }, 
+);
 
 around 'mvp_multivalue_args' => sub {
   my ( $orig, $self, @rest ) = @_;
@@ -221,11 +228,11 @@ sub _description {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless 'DESCRIPTION' eq uc $nodes[$node_number]->content;
+    next unless $self->description_label eq uc $nodes[$node_number]->content;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( 'DESCRIPTION not found in ' . $self->_source_pm_file->name );
+    $self->log( $self->description_label . ' not found in ' . $self->_source_pm_file->name );
     return q[];
   }
   return $self->_podtext_nodes( map { @{ $_->children } } @found );
@@ -312,6 +319,8 @@ version 0.002006
   [Readme::Brief]
   ; Override autodetected install method
   installer = eumm
+  ; Override name to use for brief body
+  description_label = WHAT IS THIS
 
 =head1 DESCRIPTION
 
@@ -343,7 +352,7 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =item * Heading is derived from the C<package> statement in C<main_module>
 
-=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> in C<main_module>
+=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> ( or whatever C<description_label> is ) in C<main_module>
 
 =item * Installation instructions are automatically determined by the presence of either
 
