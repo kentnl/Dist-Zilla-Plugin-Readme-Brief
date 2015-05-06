@@ -14,8 +14,8 @@ do { my $x = {
                                       },
                       'requires' => {
                                       'Dist::Zilla' => '5',
-                                      'Dist::Zilla::Plugin::Author::KENTNL::RecommendFixes' => '0.001001',
-                                      'Dist::Zilla::Plugin::Author::KENTNL::TravisCI' => '0',
+                                      'Dist::Zilla::Plugin::Author::KENTNL::RecommendFixes' => '0.004002',
+                                      'Dist::Zilla::Plugin::Author::KENTNL::TravisCI' => '0.001002',
                                       'Dist::Zilla::Plugin::Authority' => '1.006',
                                       'Dist::Zilla::Plugin::AutoPrereqs' => '0',
                                       'Dist::Zilla::Plugin::Bootstrap::lib' => '0',
@@ -72,8 +72,8 @@ do { my $x = {
                                       'Test::Pod::Coverage' => '1.08'
                                     },
                       'suggests' => {
-                                      'Dist::Zilla::App::Command::bakeini' => '0.002000',
-                                      'Dist::Zilla::PluginBundle::Author::KENTNL' => '2.024000'
+                                      'Dist::Zilla::App::Command::bakeini' => '0.002005',
+                                      'Dist::Zilla::PluginBundle::Author::KENTNL' => '2.024001'
                                     }
                     },
        'runtime' => {
