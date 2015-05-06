@@ -60,10 +60,10 @@ has 'installer' => (
 no Moose::Util::TypeConstraints;
 
 has 'description_label' => (
-  isa => Str,
-  is => 'ro',
-  lazy => 1,
-  default => sub { 'DESCRIPTION' }, 
+  isa     => Str,
+  is      => 'ro',
+  lazy    => 1,
+  default => sub { 'DESCRIPTION' },
 );
 
 around 'mvp_multivalue_args' => sub {

@@ -31,9 +31,9 @@ my @lines = $src_file->lines_utf8( { chomp => 1 } );
 
 use List::Util qw( first );
 
-ok( ( first { $_ eq 'Foo' } @lines ), 'Document name found and injected' );
+ok( ( first { $_ eq 'Foo' } @lines ),                   'Document name found and injected' );
 ok( ( first { $_ eq 'This is a description' } @lines ), 'Description injected' );
-ok( ( first { $_ eq 'INSTALLATION' } @lines ), 'Installation section injected' );
+ok( ( first { $_ eq 'INSTALLATION' } @lines ),          'Installation section injected' );
 ok( ( first { $_ eq 'COPYRIGHT AND LICENSE' } @lines ), 'Copyright section injected' );
 
 done_testing;
