@@ -13,6 +13,8 @@ version 0.003000
     installer = eumm
     ; Override autodetected main_module or main_module.pod as a source
     source_file = lib/Path/To/Module.pm
+    ; Override name to use for brief body
+    description_label = WHAT IS THIS
 
 # DESCRIPTION
 
@@ -34,7 +36,7 @@ However, bugs are highly likely to be encountered, especially as there are no te
 # MECHANICS
 
 - Heading is derived from the `package` statement in the `source_file`
-- Description is extracted as the entire `H1Nest` of the section titled `DESCRIPTION` in the `source_file`
+- Description is extracted as the entire `H1Nest` of the section titled `DESCRIPTION` ( or whatever `description_label` is ) in the `source_file`
 - Installation instructions are automatically determined by the presence of either
     - A `Makefile.PL` file in your dist ( Where it assumes `EUMM` style )
     - A `Build.PL` file in your dist ( where it assumes `Module::Build` style )
@@ -71,6 +73,12 @@ this attribute allows you to control which, or all, and the order.
     installer = eumm   ; EUMM shown second, MB shown first
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
+
+## description\_label
+
+This case-insensitive attribute defines what `=head1` node will be used for the description section of the brief.
+
+By default, this is `DESCRIPTION`.
 
 # SEE ALSO
 
