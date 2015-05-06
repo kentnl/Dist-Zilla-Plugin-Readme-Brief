@@ -1,43 +1,16 @@
 Dist::Zilla::Plugin::Readme::Brief
 
-Here are some competing modules and how this module differs from them.
+This provides a terse but informative README file for your CPAN
+distribution that contains just the essential details about your dist a
+casual consumer would want to know.
 
-*   "[Readme]"
+*   The name of the primary module in the distribution
 
-    Gives a much briefer more generic "README" file, which lacks quite
-    as much readable content, and contains no installation instructions.
+*   The distribution's main modules description
 
-*   "[ReadmeFromPod]"
+*   Simple installation instructions from an extracted archive
 
-    Provides various output formats, but ultimately is a transformer of
-    your "main_module"'s "POD", which is excessive for some peoples
-    tastes. ( And lacks install instructions )
-
-*   "[ReadmeAnyFromPod]"
-
-    Based on the above provides a bunch of extra features, but is
-    ultimately limited in similar ways with regards to install details
-    and verbosity.
-
-*   "[Pod2Readme]"
-
-    Possibly the most straight forward "POD" → "README" translator, but
-    limited like the above in that it is *only* a "POD" translator, but
-    lacks the install instructions aspect.
-
-*   "[InstallGuide]"
-
-    The polar opposite approach that only focuses on elaborate
-    installation instructions in "INSTALL", but lacks any of the "POD"
-    and "COPYRIGHT" elements.
-
-POD ERRORS
-
-Hey! The above document had some coding errors, which are explained
-below:
-
-Around line 33:
-    Non-ASCII character seen before =encoding in '→'. Assuming CP1252
+*   Short copyright information
 
 INSTALLATION
 
