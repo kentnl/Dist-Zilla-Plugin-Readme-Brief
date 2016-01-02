@@ -49,7 +49,8 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 Determines the file that will be parsed for POD to populate the README from.
 
-By default, it uses your `main_module`.
+By default, it uses your `main_module`, except if you have a `.pod` file with
+the same basename and path as your `main_module`, in which case it uses that.
 
 ## installer
 

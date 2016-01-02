@@ -29,7 +29,8 @@ my %installers = (
 
 Determines the file that will be parsed for POD to populate the README from.
 
-By default, it uses your C<main_module>.
+By default, it uses your C<main_module>, except if you have a C<.pod> file with
+the same basename and path as your C<main_module>, in which case it uses that.
 
 =cut
 
@@ -50,8 +51,14 @@ has source_file => (
     my $file =
       $self->_has_source_file_override
       ? first { $_->name eq $self->_source_file_override } @{ $self->zilla->files }
-      : $self->zilla->main_module;
+      : do {
+      my $main_module = $self->zilla->main_module;
+      my $alt         = $main_module->name;
+      my $pod         = ( $alt =~ s/\.pm\z/.pod/ ) && first { $_->name eq $alt } @{ $self->zilla->files };
+      $pod or $main_module;
+      };
     $self->log_fatal('Unable to find source_file in the distribution') if not $file;
+    $self->log_debug( 'Using POD from ' . $file->name ) unless $self->_has_source_file_override;
     return $file;
   },
 );
