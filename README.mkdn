@@ -11,6 +11,8 @@ version 0.002006
     [Readme::Brief]
     ; Override autodetected install method
     installer = eumm
+    ; Override autodetected main_module or main_module.pod as a source
+    source_file = lib/Path/To/Module.pm
 
 # DESCRIPTION
 
@@ -31,17 +33,23 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 # MECHANICS
 
-- Heading is derived from the `package` statement in `main_module`
-- Description is extracted as the entire `H1Nest` of the section titled `DESCRIPTION` in `main_module`
+- Heading is derived from the `package` statement in the `source_file`
+- Description is extracted as the entire `H1Nest` of the section titled `DESCRIPTION` in the `source_file`
 - Installation instructions are automatically determined by the presence of either
     - A `Makefile.PL` file in your dist ( Where it assumes `EUMM` style )
     - A `Build.PL` file in your dist ( where it assumes `Module::Build` style )
     - In the case of both, only instructions for `Makefile.PL` will be emitted.
     - All of the above behavior can be overridden using the [`installer`](#installer) attribute.
-- _ALL_ Copyright and license details are extracted from `main_module` in any `H1Nest` that has either `COPYRIGHT` or `LICENSE` in the heading.
+- _ALL_ Copyright and license details are extracted from the `source_file` in any `H1Nest` that has either `COPYRIGHT` or `LICENSE` in the heading.
 - Or failing such a section, a `COPYRIGHT AND LICENSE` section will be derived from `zilla->license`
 
 # ATTRIBUTES
+
+## source\_file
+
+Determines the file that will be parsed for POD to populate the README from.
+
+By default, it uses your `main_module`.
 
 ## installer
 
@@ -74,7 +82,7 @@ Here are some competing modules and how this module differs from them.
 
 - [`[ReadmeFromPod]`](https://metacpan.org/pod/Dist::Zilla::Plugin::ReadmeFromPod)
 
-    Provides various output formats, but ultimately is a transformer of your `main_module`'s `POD`,
+    Provides various output formats, but ultimately is a transformer of your `source_file`'s `POD`,
     which is excessive for some peoples tastes. ( And lacks install instructions )
 
 - [`[ReadmeAnyFromPod]`](https://metacpan.org/pod/Dist::Zilla::Plugin::ReadmeAnyFromPod)
