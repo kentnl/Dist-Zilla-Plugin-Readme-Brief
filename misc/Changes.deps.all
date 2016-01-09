@@ -1,13 +1,18 @@
 This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL dependencies for all phases (configure/build/runtime/test/develop)
 
 0.002006
+ [Added / develop requires]
+ - English
+ - Software::License::Perl_5
+
  [Changed / develop requires]
  - Dist::Zilla::Plugin::Author::KENTNL::RecommendFixes 0.001001 → 0.004002
  - Dist::Zilla::Plugin::Author::KENTNL::TravisCI 0 → 0.001002
+ - Test::More 0.88 → 0.96
 
  [Changed / develop suggests]
  - Dist::Zilla::App::Command::bakeini 0.002000 → 0.002005
- - Dist::Zilla::PluginBundle::Author::KENTNL 2.024000 → 2.024001
+ - Dist::Zilla::PluginBundle::Author::KENTNL 2.024000 → 2.025010
 
 0.002005 2015-03-04T15:21:15Z
  [Changed / develop suggests]
@@ -64,4 +69,3 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  - Dist::Zilla::PluginBundle::Author::KENTNL 2.022003 → 2.022004
 
 0.001001 2015-01-05T09:53:04Z
-
