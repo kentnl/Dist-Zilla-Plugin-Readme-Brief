@@ -128,7 +128,11 @@ around 'mvp_aliases' => sub {
   return { %{ $self->$orig(@rest) }, installers => 'installer' };
 };
 
-around dump_config => config_dumper( __PACKAGE__, { attrs => [ 'installer', 'description_label' ] } );
+around dump_config => config_dumper( __PACKAGE__,
+  {
+    attrs => [ 'installer', 'source_file', '_source_file_override', 'description_label', ],
+  },
+);
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -366,10 +370,10 @@ version 0.003000
   [Readme::Brief]
   ; Override autodetected install method
   installer = eumm
-  ; Override name to use for brief body
-  description_label = WHAT IS THIS
   ; Override autodetected main_module or main_module.pod as a source
   source_file = lib/Path/To/Module.pm
+  ; Override name to use for brief body
+  description_label = WHAT IS THIS
 
 =head1 DESCRIPTION
 
