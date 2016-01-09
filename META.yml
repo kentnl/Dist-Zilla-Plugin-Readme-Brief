@@ -22,7 +22,7 @@ name: Dist-Zilla-Plugin-Readme-Brief
 provides:
   Dist::Zilla::Plugin::Readme::Brief:
     file: lib/Dist/Zilla/Plugin/Readme/Brief.pm
-    version: '0.003000'
+    version: '0.003001'
 recommends:
   Moose: '2.000'
 requires:
@@ -49,4 +49,4 @@ resources:
   bugtracker: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief/issues
   homepage: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief
   repository: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief.git
-version: '0.003000'
+version: '0.003001'
