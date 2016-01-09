@@ -31,6 +31,7 @@ $bundle->remove_policy('CodeLayout::RequireUseUTF8');
 $bundle->remove_policy('Subroutines::ProhibitCallsToUnexportedSubs');
 $bundle->remove_policy('RegularExpressions::RequireLineBoundaryMatching');
 $bundle->remove_policy('RegularExpressions::RequireDotMatchAnything');
+$bundle->remove_policy('RegularExpressions::RequireExtendedFormatting');
 $bundle->remove_policy('RegularExpressions::ProhibitEscapedMetacharacters');
 
 #$bundle->remove_policy('ErrorHandling::RequireCarping');

@@ -303,7 +303,7 @@ allowed_pragmata = diagnostics feature perlversion strict warnings utf8
 
 [-RegularExpressions::RequireDotMatchAnything]
 
-[RegularExpressions::RequireExtendedFormatting]
+[-RegularExpressions::RequireExtendedFormatting]
 
 [-RegularExpressions::RequireLineBoundaryMatching]
 
