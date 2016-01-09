@@ -97,6 +97,21 @@ has 'installer' => (
 
 no Moose::Util::TypeConstraints;
 
+
+
+
+
+
+
+
+
+has 'description_label' => (
+  isa     => Str,
+  is      => 'ro',
+  lazy    => 1,
+  default => sub { 'DESCRIPTION' },
+);
+
 around 'mvp_multivalue_args' => sub {
   my ( $orig, $self, @rest ) = @_;
   return ( $self->$orig(@rest), 'installer' );
@@ -107,7 +122,7 @@ around 'mvp_aliases' => sub {
   return { %{ $self->$orig(@rest) }, installers => 'installer' };
 };
 
-around dump_config => config_dumper( __PACKAGE__, { attrs => ['installer'] } );
+around dump_config => config_dumper( __PACKAGE__, { attrs => [ 'installer', 'description_label' ] } );
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -254,11 +269,11 @@ sub _description {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless 'DESCRIPTION' eq uc $nodes[$node_number]->content;
+    next unless uc $self->description_label eq uc $nodes[$node_number]->content;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( 'DESCRIPTION not found in ' . $self->source_file->name );
+    $self->log( $self->description_label . ' not found in ' . $self->source_File->name );
     return q[];
   }
   return $self->_podtext_nodes( map { @{ $_->children } } @found );
@@ -345,6 +360,8 @@ version 0.002006
   [Readme::Brief]
   ; Override autodetected install method
   installer = eumm
+  ; Override name to use for brief body
+  description_label = WHAT IS THIS
 
 =head1 DESCRIPTION
 
@@ -376,7 +393,7 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =item * Heading is derived from the C<package> statement in the C<source_file>
 
-=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> in the C<source_file>
+=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> ( or whatever C<description_label> is ) in the C<source_file>
 
 =item * Installation instructions are automatically determined by the presence of either
 
@@ -426,6 +443,12 @@ this attribute allows you to control which, or all, and the order.
   installer = eumm   ; EUMM shown second, MB shown first
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
+
+=head2 description_label
+
+This case-insensitive attribute defines what C<=head1> node will be used for the description section of the brief.
+
+By default, this is C<DESCRIPTION>.
 
 =for Pod::Coverage gather_files
 
