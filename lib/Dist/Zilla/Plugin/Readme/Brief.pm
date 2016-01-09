@@ -34,6 +34,44 @@ my %installers = (
 
 
 
+has _source_file_override => (
+  isa => 'Str',
+  is  => 'ro' ,
+  init_arg  => 'source_file',
+  predicate => '_has_source_file_override',
+);
+
+has source_file => (
+  is   => 'ro',
+  isa  => 'Dist::Zilla::Role::File',
+  lazy => 1,
+  init_arg => undef,
+  default  => sub {
+    my ( $self ) = @_;
+    my $file = $self->_has_source_file_override
+      ? first { $_->name eq $self->_source_file_override } @{ $self->zilla->files }
+      : do {
+        my $main_module = $self->zilla->main_module;
+        my $alt = $main_module->name;
+        my $pod = ( $alt =~ s/\.pm\z/.pod/ ) && first { $_->name eq $alt } @{ $self->zilla->files };
+        $pod or $main_module;
+      };
+    $self->log_fatal( 'Unable to find source_file in the distribution' ) if not $file;
+    $self->log_debug( 'Using POD from ' . $file->name ) unless $self->_has_source_file_override;
+    return $file;
+  },
+);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,15 +195,10 @@ sub _configured_installer {
   return join qq[\nor\n\n], @sections;
 }
 
-sub _source_pm_file {
-  my ($self) = @_;
-  return $self->zilla->main_module;
-}
-
 sub _source_pod {
   my ($self) = @_;
   return $self->{_pod_cache} if exists $self->{_pod_cache};
-  my $chars = $self->_source_pm_file->content;
+  my $chars = $self->source_file->content;
 
   require Encode;
   require Pod::Elemental;
@@ -206,7 +239,7 @@ sub _podtext_nodes {
 sub _heading {
   my ($self) = @_;
   require PPI::Document;    # Historic version of dzil doesn't load PPI on its own...
-  my $document = $self->ppi_document_for_file( $self->_source_pm_file );
+  my $document = $self->ppi_document_for_file( $self->source_file );
   return PPIx::DocumentName->extract($document);
 }
 
@@ -225,7 +258,7 @@ sub _description {
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( 'DESCRIPTION not found in ' . $self->_source_pm_file->name );
+    $self->log( 'DESCRIPTION not found in ' . $self->source_file->name );
     return q[];
   }
   return $self->_podtext_nodes( map { @{ $_->children } } @found );
@@ -254,7 +287,7 @@ sub _copyright_from_pod {
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( 'COPYRIGHT/LICENSE not found in ' . $self->_source_pm_file->name );
+    $self->log( 'COPYRIGHT/LICENSE not found in ' . $self->source_file->name );
     return;
   }
   return $self->_podtext_nodes(@found);
@@ -341,9 +374,9 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =over 4
 
-=item * Heading is derived from the C<package> statement in C<main_module>
+=item * Heading is derived from the C<package> statement in the C<source_file>
 
-=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> in C<main_module>
+=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> in the C<source_file>
 
 =item * Installation instructions are automatically determined by the presence of either
 
@@ -359,13 +392,20 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =back
 
-=item * I<ALL> Copyright and license details are extracted from C<main_module> in any C<H1Nest> that has either C<COPYRIGHT> or C<LICENSE> in the heading.
+=item * I<ALL> Copyright and license details are extracted from the C<source_file> in any C<H1Nest> that has either C<COPYRIGHT> or C<LICENSE> in the heading.
 
 =item * Or failing such a section, a C<COPYRIGHT AND LICENSE> section will be derived from C<< zilla->license >>
 
 =back
 
 =head1 ATTRIBUTES
+
+=head2 source_file
+
+Determines the file that will be parsed for POD to populate the README from.
+
+By default, it uses your C<main_module>, except if you have a C<.pod> file with
+the same basename and path as your C<main_module>, in which case it uses that.
 
 =head2 installer
 
@@ -402,7 +442,7 @@ and contains no installation instructions.
 
 =item * L<< C<[ReadmeFromPod]>|Dist::Zilla::Plugin::ReadmeFromPod >>
 
-Provides various output formats, but ultimately is a transformer of your C<main_module>'s C<POD>,
+Provides various output formats, but ultimately is a transformer of your C<source_file>'s C<POD>,
 which is excessive for some peoples tastes. ( And lacks install instructions )
 
 =item * L<< C<[ReadmeAnyFromPod]>|Dist::Zilla::Plugin::ReadmeAnyFromPod >>
