@@ -279,7 +279,7 @@ sub _description {
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( $self->description_label . ' not found in ' . $self->source_File->name );
+    $self->log( $self->description_label . ' not found in ' . $self->source_file->name );
     return q[];
   }
   return $self->_podtext_nodes( map { @{ $_->children } } @found );
@@ -368,6 +368,8 @@ version 0.003000
   installer = eumm
   ; Override name to use for brief body
   description_label = WHAT IS THIS
+  ; Override autodetected main_module or main_module.pod as a source
+  source_file = lib/Path/To/Module.pm
 
 =head1 DESCRIPTION
 
