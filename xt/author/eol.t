@@ -12,7 +12,6 @@ my @files = (
     't/00-report-prereqs.dd',
     't/00-report-prereqs.t',
     't/basic.t',
-    't/description_label.t',
     't/podname.t',
     't/podnameci.t'
 );

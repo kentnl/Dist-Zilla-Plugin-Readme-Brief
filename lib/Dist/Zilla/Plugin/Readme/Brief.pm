@@ -12,7 +12,7 @@ our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Moose qw( with has around );
 use List::Util qw( first );
-use MooseX::Types::Moose qw( ArrayRef Str );
+use MooseX::Types::Moose qw( ArrayRef );
 use Moose::Util::TypeConstraints qw( enum );
 use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
 use PPIx::DocumentName;
@@ -59,21 +59,6 @@ has 'installer' => (
 
 no Moose::Util::TypeConstraints;
 
-
-
-
-
-
-
-
-
-has 'description_label' => (
-  isa     => Str,
-  is      => 'ro',
-  lazy    => 1,
-  default => sub { 'DESCRIPTION' },
-);
-
 around 'mvp_multivalue_args' => sub {
   my ( $orig, $self, @rest ) = @_;
   return ( $self->$orig(@rest), 'installer' );
@@ -84,7 +69,7 @@ around 'mvp_aliases' => sub {
   return { %{ $self->$orig(@rest) }, installers => 'installer' };
 };
 
-around dump_config => config_dumper( __PACKAGE__, { attrs => [ 'installer', 'description_label' ] } );
+around dump_config => config_dumper( __PACKAGE__, { attrs => ['installer'] } );
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -236,11 +221,11 @@ sub _description {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless uc $self->description_label eq uc $nodes[$node_number]->content;
+    next unless 'DESCRIPTION' eq uc $nodes[$node_number]->content;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( $self->description_label . ' not found in ' . $self->_source_pm_file->name );
+    $self->log( 'DESCRIPTION not found in ' . $self->_source_pm_file->name );
     return q[];
   }
   return $self->_podtext_nodes( map { @{ $_->children } } @found );
@@ -327,8 +312,6 @@ version 0.002006
   [Readme::Brief]
   ; Override autodetected install method
   installer = eumm
-  ; Override name to use for brief body
-  description_label = WHAT IS THIS
 
 =head1 DESCRIPTION
 
@@ -360,7 +343,7 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =item * Heading is derived from the C<package> statement in C<main_module>
 
-=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> ( or whatever C<description_label> is ) in C<main_module>
+=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> in C<main_module>
 
 =item * Installation instructions are automatically determined by the presence of either
 
@@ -404,12 +387,6 @@ this attribute allows you to control which, or all, and the order.
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
-=head2 description_label
-
-This case-insensitive attribute defines what C<=head1> node will be used for the description section of the brief.
-
-By default, this is C<DESCRIPTION>.
-
 =for Pod::Coverage gather_files
 
 =head1 SEE ALSO
@@ -451,7 +428,7 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2015 by Kent Fredric <kentfredric@gmail.com>.
+This software is copyright (c) 2016 by Kent Fredric <kentfredric@gmail.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
