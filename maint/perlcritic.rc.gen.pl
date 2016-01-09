@@ -18,7 +18,7 @@ use Path::Tiny qw(path);
 my $bundle = create_bundle('Example::Author::KENTNL');
 $bundle->configure;
 
-my @stopwords = (qw( README CPAN ));
+my @stopwords = (qw( README CPAN basename ));
 for my $wordlist (@stopwords) {
   $bundle->add_or_append_policy_field( 'Documentation::PodSpelling' => ( 'stop_words' => $wordlist ) );
 }
@@ -29,6 +29,10 @@ for my $wordlist (@stopwords) {
 #$bundle->remove_policy('ErrorHandling::RequireUseOfExceptions');
 $bundle->remove_policy('CodeLayout::RequireUseUTF8');
 $bundle->remove_policy('Subroutines::ProhibitCallsToUnexportedSubs');
+$bundle->remove_policy('RegularExpressions::RequireLineBoundaryMatching');
+$bundle->remove_policy('RegularExpressions::RequireDotMatchAnything');
+$bundle->remove_policy('RegularExpressions::RequireExtendedFormatting');
+$bundle->remove_policy('RegularExpressions::ProhibitEscapedMetacharacters');
 
 #$bundle->remove_policy('ErrorHandling::RequireCarping');
 #$bundle->remove_policy('NamingConventions::Capitalization');

@@ -1,5 +1,15 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
+0.003000 2016-01-09T15:17:41Z 910e00a
+ [Dependencies::Stats]
+ - Dependencies changed since 0.002005, see misc/*.deps* for details
+ - develop: +5 ↑3 -1 (suggests: ↑2)
+
+ [Features]
+ - Can now specify `source_file` which forces the name of a file to use instead of `main_module` ( aristotle++ #5 )
+ - Can now automatically use the `.pod` file alternative for your `main_module` if you ship one. ( aristotle++ #5 )
+ - Can override which section to take brief from instead of DESCRIPTION by setting `description_label` ( #4 )
+
 0.002005 2015-03-04T15:21:15Z 03b80f3
  [Dependencies::Stats]
  - Dependencies changed since 0.002004, see misc/*.deps* for details
@@ -67,4 +77,3 @@ Release history for Dist-Zilla-Plugin-Readme-Brief
 
 0.001000 2015-01-05T09:44:06Z 7628164
  - First version.
-

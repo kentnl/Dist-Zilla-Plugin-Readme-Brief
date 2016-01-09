@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.002005';
+our $VERSION = '0.003000';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -12,7 +12,7 @@ our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Moose qw( with has around );
 use List::Util qw( first );
-use MooseX::Types::Moose qw( ArrayRef );
+use MooseX::Types::Moose qw( ArrayRef Str );
 use Moose::Util::TypeConstraints qw( enum );
 use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
 use PPIx::DocumentName;
@@ -24,6 +24,48 @@ my %installers = (
   'eumm' => '_install_eumm',
   'mb'   => '_install_mb',
 );
+
+
+
+
+
+
+
+
+
+
+
+
+has _source_file_override => (
+  isa       => Str,
+  is        => 'ro',
+  init_arg  => 'source_file',
+  predicate => '_has_source_file_override',
+);
+
+has source_file => (
+  is       => 'ro',
+  isa      => 'Dist::Zilla::Role::File',
+  lazy     => 1,
+  init_arg => undef,
+  default  => sub {
+    my ($self) = @_;
+    my $file =
+      $self->_has_source_file_override
+      ? first { $_->name eq $self->_source_file_override } @{ $self->zilla->files }
+      : do {
+      my $main_module = $self->zilla->main_module;
+      my $alt         = $main_module->name;
+      my $pod         = ( $alt =~ s/\.pm\z/.pod/ ) && first { $_->name eq $alt } @{ $self->zilla->files };
+      $pod or $main_module;
+      };
+    $self->log_fatal('Unable to find source_file in the distribution') if not $file;
+    $self->log_debug( 'Using POD from ' . $file->name ) unless $self->_has_source_file_override;
+    return $file;
+  },
+);
+
+
 
 
 
@@ -59,6 +101,23 @@ has 'installer' => (
 
 no Moose::Util::TypeConstraints;
 
+
+
+
+
+
+
+
+
+
+
+has 'description_label' => (
+  isa     => Str,
+  is      => 'ro',
+  lazy    => 1,
+  default => sub { 'DESCRIPTION' },
+);
+
 around 'mvp_multivalue_args' => sub {
   my ( $orig, $self, @rest ) = @_;
   return ( $self->$orig(@rest), 'installer' );
@@ -69,7 +128,11 @@ around 'mvp_aliases' => sub {
   return { %{ $self->$orig(@rest) }, installers => 'installer' };
 };
 
-around dump_config => config_dumper( __PACKAGE__, { attrs => ['installer'] } );
+around dump_config => config_dumper( __PACKAGE__,
+  {
+    attrs => [ 'installer', 'source_file', '_source_file_override', 'description_label', ],
+  },
+);
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -157,15 +220,10 @@ sub _configured_installer {
   return join qq[\nor\n\n], @sections;
 }
 
-sub _source_pm_file {
-  my ($self) = @_;
-  return $self->zilla->main_module;
-}
-
 sub _source_pod {
   my ($self) = @_;
   return $self->{_pod_cache} if exists $self->{_pod_cache};
-  my $chars = $self->_source_pm_file->content;
+  my $chars = $self->source_file->content;
 
   require Encode;
   require Pod::Elemental;
@@ -206,7 +264,7 @@ sub _podtext_nodes {
 sub _heading {
   my ($self) = @_;
   require PPI::Document;    # Historic version of dzil doesn't load PPI on its own...
-  my $document = $self->ppi_document_for_file( $self->_source_pm_file );
+  my $document = $self->ppi_document_for_file( $self->source_file );
   return PPIx::DocumentName->extract($document);
 }
 
@@ -221,11 +279,11 @@ sub _description {
 
   for my $node_number ( 0 .. $#nodes ) {
     next unless Pod::Elemental::Selectors::s_command( head1 => $nodes[$node_number] );
-    next unless 'DESCRIPTION' eq uc $nodes[$node_number]->content;
+    next unless uc $self->description_label eq uc $nodes[$node_number]->content;
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( 'DESCRIPTION not found in ' . $self->_source_pm_file->name );
+    $self->log( $self->description_label . ' not found in ' . $self->source_file->name );
     return q[];
   }
   return $self->_podtext_nodes( map { @{ $_->children } } @found );
@@ -254,7 +312,7 @@ sub _copyright_from_pod {
     push @found, $nodes[$node_number];
   }
   if ( not @found ) {
-    $self->log( 'COPYRIGHT/LICENSE not found in ' . $self->_source_pm_file->name );
+    $self->log( 'COPYRIGHT/LICENSE not found in ' . $self->source_file->name );
     return;
   }
   return $self->_podtext_nodes(@found);
@@ -305,13 +363,17 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.002005
+version 0.003000
 
 =head1 SYNOPSIS
 
   [Readme::Brief]
   ; Override autodetected install method
   installer = eumm
+  ; Override autodetected main_module or main_module.pod as a source
+  source_file = lib/Path/To/Module.pm
+  ; Override name to use for brief body
+  description_label = WHAT IS THIS
 
 =head1 DESCRIPTION
 
@@ -341,9 +403,9 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =over 4
 
-=item * Heading is derived from the C<package> statement in C<main_module>
+=item * Heading is derived from the C<package> statement in the C<source_file>
 
-=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> in C<main_module>
+=item * Description is extracted as the entire C<H1Nest> of the section titled C<DESCRIPTION> ( or whatever C<description_label> is ) in the C<source_file>
 
 =item * Installation instructions are automatically determined by the presence of either
 
@@ -359,13 +421,22 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 =back
 
-=item * I<ALL> Copyright and license details are extracted from C<main_module> in any C<H1Nest> that has either C<COPYRIGHT> or C<LICENSE> in the heading.
+=item * I<ALL> Copyright and license details are extracted from the C<source_file> in any C<H1Nest> that has either C<COPYRIGHT> or C<LICENSE> in the heading.
 
 =item * Or failing such a section, a C<COPYRIGHT AND LICENSE> section will be derived from C<< zilla->license >>
 
 =back
 
 =head1 ATTRIBUTES
+
+=head2 source_file
+
+Determines the file that will be parsed for POD to populate the README from.
+
+By default, it uses your C<main_module>, except if you have a C<.pod> file with
+the same basename and path as your C<main_module>, in which case it uses that.
+
+This parameter and associated C<.pod> support is new in C<v0.003000>
 
 =head2 installer
 
@@ -387,6 +458,16 @@ this attribute allows you to control which, or all, and the order.
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
+This parameter was introduced in version C<v0.002000>
+
+=head2 description_label
+
+This case-insensitive attribute defines what C<=head1> node will be used for the description section of the brief.
+
+By default, this is C<DESCRIPTION>.
+
+This parameter was introduced in version C<v0.003000>
+
 =for Pod::Coverage gather_files
 
 =head1 SEE ALSO
@@ -402,7 +483,7 @@ and contains no installation instructions.
 
 =item * L<< C<[ReadmeFromPod]>|Dist::Zilla::Plugin::ReadmeFromPod >>
 
-Provides various output formats, but ultimately is a transformer of your C<main_module>'s C<POD>,
+Provides various output formats, but ultimately is a transformer of your C<source_file>'s C<POD>,
 which is excessive for some peoples tastes. ( And lacks install instructions )
 
 =item * L<< C<[ReadmeAnyFromPod]>|Dist::Zilla::Plugin::ReadmeAnyFromPod >>
@@ -428,7 +509,7 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2015 by Kent Fredric <kentfredric@gmail.com>.
+This software is copyright (c) 2016 by Kent Fredric <kentfredric@gmail.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
