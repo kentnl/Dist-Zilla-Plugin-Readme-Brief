@@ -34,6 +34,8 @@ my %installers = (
 
 
 
+
+
 has _source_file_override => (
   isa       => Str,
   is        => 'ro',
@@ -85,6 +87,8 @@ has source_file => (
 
 
 
+
+
 has 'installer' => (
   isa => ArrayRef [ enum( [ keys %installers ] ) ],
   is => 'ro',
@@ -96,6 +100,8 @@ has 'installer' => (
 );
 
 no Moose::Util::TypeConstraints;
+
+
 
 
 
@@ -424,6 +430,8 @@ Determines the file that will be parsed for POD to populate the README from.
 By default, it uses your C<main_module>, except if you have a C<.pod> file with
 the same basename and path as your C<main_module>, in which case it uses that.
 
+This parameter and associated C<.pod> support is new in C<v0.003000>
+
 =head2 installer
 
 Determines what installers to document in the C<INSTALLATION> section.
@@ -444,11 +452,15 @@ this attribute allows you to control which, or all, and the order.
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
+This parameter was introduced in version C<v0.002000>
+
 =head2 description_label
 
 This case-insensitive attribute defines what C<=head1> node will be used for the description section of the brief.
 
 By default, this is C<DESCRIPTION>.
+
+This parameter was introduced in version C<v0.003000>
 
 =for Pod::Coverage gather_files
 
