@@ -32,6 +32,8 @@ Determines the file that will be parsed for POD to populate the README from.
 By default, it uses your C<main_module>, except if you have a C<.pod> file with
 the same basename and path as your C<main_module>, in which case it uses that.
 
+This parameter and associated C<.pod> support is new in C<v0.003000>
+
 =cut
 
 has _source_file_override => (
@@ -83,6 +85,8 @@ this attribute allows you to control which, or all, and the order.
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
+This parameter was introduced in version C<v0.002000>
+
 =cut
 
 has 'installer' => (
@@ -102,6 +106,8 @@ no Moose::Util::TypeConstraints;
 This case-insensitive attribute defines what C<=head1> node will be used for the description section of the brief.
 
 By default, this is C<DESCRIPTION>.
+
+This parameter was introduced in version C<v0.003000>
 
 =cut
 

@@ -54,6 +54,8 @@ Determines the file that will be parsed for POD to populate the README from.
 By default, it uses your `main_module`, except if you have a `.pod` file with
 the same basename and path as your `main_module`, in which case it uses that.
 
+This parameter and associated `.pod` support is new in `v0.003000`
+
 ## installer
 
 Determines what installers to document in the `INSTALLATION` section.
@@ -74,11 +76,15 @@ this attribute allows you to control which, or all, and the order.
 
 The verbiage however has not yet been cleaned up such that having both is completely lucid.
 
+This parameter was introduced in version `v0.002000`
+
 ## description\_label
 
 This case-insensitive attribute defines what `=head1` node will be used for the description section of the brief.
 
 By default, this is `DESCRIPTION`.
+
+This parameter was introduced in version `v0.003000`
 
 # SEE ALSO
 
