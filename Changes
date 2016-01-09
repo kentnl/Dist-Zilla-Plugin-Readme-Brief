@@ -3,7 +3,7 @@ Release history for Dist-Zilla-Plugin-Readme-Brief
 {{$NEXT}}
  [Dependencies::Stats]
  - Dependencies changed since 0.002005, see misc/*.deps* for details
- - develop: +2 ↑3 (suggests: ↑2)
+ - develop: +5 ↑3 -1 (suggests: ↑2)
 
 0.002005 2015-03-04T15:21:15Z 03b80f3
  [Dependencies::Stats]
