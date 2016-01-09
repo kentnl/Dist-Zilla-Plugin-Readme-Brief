@@ -12,7 +12,7 @@ our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 use Moose qw( with has around );
 use List::Util qw( first );
-use MooseX::Types::Moose qw( ArrayRef );
+use MooseX::Types::Moose qw( ArrayRef Str );
 use Moose::Util::TypeConstraints qw( enum );
 use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
 use PPIx::DocumentName;
@@ -33,35 +33,28 @@ my %installers = (
 
 
 
-
 has _source_file_override => (
-  isa => 'Str',
-  is  => 'ro' ,
+  isa       => Str,
+  is        => 'ro',
   init_arg  => 'source_file',
   predicate => '_has_source_file_override',
 );
 
 has source_file => (
-  is   => 'ro',
-  isa  => 'Dist::Zilla::Role::File',
-  lazy => 1,
+  is       => 'ro',
+  isa      => 'Dist::Zilla::Role::File',
+  lazy     => 1,
   init_arg => undef,
   default  => sub {
-    my ( $self ) = @_;
-    my $file = $self->_has_source_file_override
+    my ($self) = @_;
+    my $file =
+      $self->_has_source_file_override
       ? first { $_->name eq $self->_source_file_override } @{ $self->zilla->files }
-      : do {
-        my $main_module = $self->zilla->main_module;
-        my $alt = $main_module->name;
-        my $pod = ( $alt =~ s/\.pm\z/.pod/ ) && first { $_->name eq $alt } @{ $self->zilla->files };
-        $pod or $main_module;
-      };
-    $self->log_fatal( 'Unable to find source_file in the distribution' ) if not $file;
-    $self->log_debug( 'Using POD from ' . $file->name ) unless $self->_has_source_file_override;
+      : $self->zilla->main_module;
+    $self->log_fatal('Unable to find source_file in the distribution') if not $file;
     return $file;
   },
 );
-
 
 
 
@@ -404,8 +397,7 @@ However, bugs are highly likely to be encountered, especially as there are no te
 
 Determines the file that will be parsed for POD to populate the README from.
 
-By default, it uses your C<main_module>, except if you have a C<.pod> file with
-the same basename and path as your C<main_module>, in which case it uses that.
+By default, it uses your C<main_module>.
 
 =head2 installer
 
