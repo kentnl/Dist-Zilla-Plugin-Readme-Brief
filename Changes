@@ -1,5 +1,15 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
+0.003001 2017-03-02T00:03:42Z 5be0432
+ [Bugfix]
+ - Avoid test failures on 5.26 w/ -Ddefault_inc_excludes_dot
+ - Closes https://github.com/kentnl/Dist-Zilla-Plugin-Readme-Brief/issues/6
+
+ [Dependencies::Stats]
+ - Dependencies changed since 0.003000, see misc/*.deps* for details
+ - develop: +1 ↑1 (suggests: ↑1)
+ - test: ↓1
+
 0.003000 2016-01-09T15:17:41Z 910e00a
  [Dependencies::Stats]
  - Dependencies changed since 0.002005, see misc/*.deps* for details
