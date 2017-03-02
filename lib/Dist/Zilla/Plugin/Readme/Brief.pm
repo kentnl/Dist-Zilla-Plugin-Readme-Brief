@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.003001';
+our $VERSION = '0.003002';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
