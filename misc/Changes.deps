@@ -1,6 +1,8 @@
 This file contains changes in REQUIRED dependencies for standard CPAN phases (configure/build/runtime/test)
 
 0.003002
+ [Removed / runtime requires]
+ - Dist::Zilla::Util::ConfigDumper
 
 0.003001 2017-03-02T00:03:42Z
  [Changed / test requires]
