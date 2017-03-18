@@ -3,9 +3,9 @@ abstract: 'Provide a short simple README with just the essentials'
 author:
   - 'Kent Fredric <kentnl@cpan.org>'
 build_requires:
-  Dist::Zilla::Util::Test::KENTNL: '1.004'
   ExtUtils::MakeMaker: '0'
   File::Spec: '0'
+  Path::Tiny: '0'
   Test::DZil: '0'
   Test::More: '0'
   perl: '5.010'
@@ -13,7 +13,7 @@ configure_requires:
   ExtUtils::MakeMaker: '0'
   perl: '5.010'
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 6.008, CPAN::Meta::Converter version 2.150010'
+generated_by: 'Dist::Zilla version 6.009, CPAN::Meta::Converter version 2.150010'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -22,14 +22,13 @@ name: Dist-Zilla-Plugin-Readme-Brief
 provides:
   Dist::Zilla::Plugin::Readme::Brief:
     file: lib/Dist/Zilla/Plugin/Readme/Brief.pm
-    version: '0.003001'
+    version: '0.003002'
 recommends:
   Moose: '2.000'
 requires:
   Dist::Zilla::File::FromCode: '0'
   Dist::Zilla::Role::FileGatherer: '0'
   Dist::Zilla::Role::PPI: '0'
-  Dist::Zilla::Util::ConfigDumper: '0'
   Encode: '0'
   List::Util: '0'
   Moose: '0'
@@ -49,4 +48,4 @@ resources:
   bugtracker: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief/issues
   homepage: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief
   repository: https://github.com/KENTNL/Dist-Zilla-Plugin-Readme-Brief.git
-version: '0.003001'
+version: '0.003002'

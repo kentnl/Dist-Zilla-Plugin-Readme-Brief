@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Readme::Brief;
 
-our $VERSION = '0.003001';
+our $VERSION = '0.003002';
 
 # ABSTRACT: Provide a short simple README with just the essentials
 
@@ -14,7 +14,6 @@ use Moose qw( with has around );
 use List::Util qw( first );
 use MooseX::Types::Moose qw( ArrayRef Str );
 use Moose::Util::TypeConstraints qw( enum );
-use Dist::Zilla::Util::ConfigDumper qw( config_dumper );
 use PPIx::DocumentName;
 
 with 'Dist::Zilla::Role::PPI';
@@ -128,11 +127,21 @@ around 'mvp_aliases' => sub {
   return { %{ $self->$orig(@rest) }, installers => 'installer' };
 };
 
-around dump_config => config_dumper( __PACKAGE__,
-  {
-    attrs => [ 'installer', 'source_file', '_source_file_override', 'description_label', ],
-  },
-);
+around dump_config => sub {
+  my ( $orig, $self, @args ) = @_;
+  my $config    = $self->$orig(@args);
+  my $localconf = {};
+
+  for my $attrname (qw(  installer source_file _source_file_override description_label )) {
+    if ( $self->meta->find_attribute_by_name($attrname)->has_value($self)) {
+      $localconf->{ $attrname } = $self->can($attrname)->();
+    }
+  }
+
+  $localconf->{ q[$] . __PACKAGE__ . '::VERSION' } = $VERSION unless __PACKAGE__ eq ref $self;
+  $config->{ +__PACKAGE__ } = $localconf if keys %{$localconf};
+  return $config;
+};
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
@@ -363,7 +372,7 @@ Dist::Zilla::Plugin::Readme::Brief - Provide a short simple README with just the
 
 =head1 VERSION
 
-version 0.003001
+version 0.003002
 
 =head1 SYNOPSIS
 
