@@ -1,6 +1,6 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
-0.003002 2017-03-18T06:41:45Z 96499ae
+0.003002 2017-03-18T06:42:04Z c2d2242
  - Stop using ConfigDumper
  - Stop using Test::KENTNL
 
