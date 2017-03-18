@@ -1,12 +1,14 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
-0.003002 2017-03-18T06:41:28Z b998878
+0.003002 2017-03-18T06:41:45Z 96499ae
  - Stop using ConfigDumper
+ - Stop using Test::KENTNL
 
  [Dependencies::Stats]
  - Dependencies changed since 0.003001, see misc/*.deps* for details
  - develop: +1 -1 (suggests: ↑2)
  - runtime: -1
+ - test: +1 -1 (recommends: +1)
 
 0.003001 2017-03-02T00:03:42Z 5be0432
  [Bugfix]

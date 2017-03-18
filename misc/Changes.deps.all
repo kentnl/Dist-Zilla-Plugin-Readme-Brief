@@ -4,6 +4,12 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  [Added / develop requires]
  - Dist::Zilla::Plugin::lib
 
+ [Added / test recommends]
+ - Path::Tiny 0.058
+
+ [Added / test requires]
+ - Path::Tiny
+
  [Changed / develop suggests]
  - Dist::Zilla::App::Command::bakeini 0.002005 → 0.002006
  - Dist::Zilla::PluginBundle::Author::KENTNL 2.025020 → 2.025021
@@ -13,6 +19,9 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
 
  [Removed / runtime requires]
  - Dist::Zilla::Util::ConfigDumper
+
+ [Removed / test requires]
+ - Dist::Zilla::Util::Test::KENTNL 1.004
 
 0.003001 2017-03-02T00:03:42Z
  [Added / develop requires]
