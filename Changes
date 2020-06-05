@@ -1,6 +1,9 @@
 Release history for Dist-Zilla-Plugin-Readme-Brief
 
 {{$NEXT}}
+ [Dependencies::Stats]
+ - Dependencies changed since 0.003002, see misc/*.deps* for details
+ - develop: +1 -1
 
 0.003002 2017-03-18T06:42:04Z c2d2242
  - Stop using ConfigDumper
