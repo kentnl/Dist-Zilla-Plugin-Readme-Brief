@@ -134,7 +134,7 @@ around dump_config => sub {
 
   for my $attrname (qw(  installer source_file _source_file_override description_label )) {
     if ( $self->meta->find_attribute_by_name($attrname)->has_value($self)) {
-      $localconf->{ $attrname } = $self->can($attrname)->();
+      $localconf->{ $attrname } = $self->can($attrname)->($self);
     }
   }
 
